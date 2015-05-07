@@ -1,0 +1,29 @@
+{
+  "name": "isaac.js",
+  "version": "1.0.0",
+  "description": "Isaac in Canvas!",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://nicolasbrugneaux/isaac.js"
+  },
+  "devDependencies": {
+    "babelify": "^6.0.2",
+    "browserify": "^10.1.0",
+    "gulp": "^3.8.11",
+    "gulp-util": "^3.0.4",
+    "object-assign": "^2.0.0",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.2.0"
+  },
+  "keywords": [
+    "isaac",
+    "canvas",
+    "js"
+  ],
+  "author": "Nicolas Brugneaux <nicolas.brugneaux@gmail.com>",
+  "license": "MIT"
+}

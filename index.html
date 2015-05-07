@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Isaac.js</title>
+</head>
+<body>
+    <canvas id="app" width="800" height="480">
+        You need a proper browser meatbag.
+    </canvas>
+    <script src="build/js/bundle.js"></script>
+    <script src="build/vendor/stats.js/build/stats.min.js"></script>
+    <script>
+    var stats = new Stats();
+    stats.setMode(0); // 0: fps, 1: ms
+
+    // align top-left
+    stats.domElement.style.position = 'absolute';
+    stats.domElement.style.left = '820px';
+    stats.domElement.style.top = '10px';
+
+    document.body.appendChild( stats.domElement );
+
+    var update = function () {
+
+        stats.begin();
+
+        // monitored code goes here
+
+        stats.end();
+
+        requestAnimationFrame( update );
+
+    };
+
+    requestAnimationFrame( update );
+    </script>
+</body>
+</html>
