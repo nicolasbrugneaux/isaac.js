@@ -2,31 +2,25 @@
 
 const images =
 {
-    background:
+    rooms:
     {
-        src: 'build/img/room.png',
-        ready : false,
-        img: new Image()
+        default: 'build/img/room.png'
     },
-    isaac:
+    characters:
     {
-        src: 'build/img/isaac.png',
-        ready: false,
-        img: new Image()
-    }
-}
-
-for ( let prop in images )
-{
-    if ( images.hasOwnProperty( prop ) )
+        isaac: 'build/img/isaac.png'
+    },
+    items:
     {
-        images[prop].img.onload = ( prop ) =>
-        {
-            images[prop].ready = true;
-        }.bind( null, prop );
-        images[prop].img.src = images[prop].src;
+    },
+    monsters:
+    {
+    },
+    obstacles:
+    {
+        poop: '',
+        redPoop: 'build/img/red_poop.png'
     }
-}
-
+};
 
 export default images;

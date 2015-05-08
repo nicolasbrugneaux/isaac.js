@@ -1,4 +1,4 @@
-export const repeat = ( str, times ) =>
+export default ( str, times ) =>
 {
     let _str = '';
     while ( times-- )
@@ -6,4 +6,4 @@ export const repeat = ( str, times ) =>
         _str += str;
     }
     return _str;
-}
+};
