@@ -43,10 +43,19 @@ export default class Actor
         this._y = value;
     }
 
+
+    get center()
+    {
+        return {
+            x: this._x + this.sizeX / 2,
+            y: this._y + this.sizeY / 2
+        };
+    }
+
     render()
     {
-        ctx.fillStyle = 'red';
-        ctx.fillRect( this._x, this._y, this.sizeX, this.sizeY );
+        // ctx.fillStyle = 'red';
+        // ctx.fillRect( this._x, this._y, this.sizeX, this.sizeY );
 
         if ( this.image && this.ready )
         {
