@@ -1,5 +1,6 @@
 import Isaac from './components/isaac';
 import Room from './components/room';
+import { displayCtx, canvas } from './canvas';
 
 let actors =
 [
@@ -21,6 +22,8 @@ const main = () =>
 
         actors[i].render();
     }
+
+    displayCtx.drawImage( canvas, 0, 0 ); // draw something visible only once per frame.
 
     requestAnimationFrame( main );
 };
