@@ -23,6 +23,23 @@ export default class Actor
         }
     }
 
+    setImage( image, type='image' )
+    {
+        if ( type === 'canvas' )
+        {
+            this.image = true;
+            this._image = image;
+        }
+        else if ( image !== this.image )
+        {
+            this.image = image;
+            this.ready = false;
+            this._image = new Image();
+            this._image.onload = () => this.ready = true;
+            this._image.src = this.image;
+        }
+    }
+
     get x()
     {
         return this._x;
@@ -54,12 +71,14 @@ export default class Actor
 
     render()
     {
+        const x = Math.round( this._x );
+        const y = Math.round( this._y );
+
         // ctx.fillStyle = 'red';
         // ctx.fillRect( this._x, this._y, this.sizeX, this.sizeY );
-
         if ( this.image && this.ready )
         {
-            ctx.drawImage( this._image, this._x, this._y );
+            ctx.drawImage( this._image, x, y );
         }
     }
 }

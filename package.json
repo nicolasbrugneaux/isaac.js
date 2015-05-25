@@ -12,8 +12,8 @@
     "url": "https://nicolasbrugneaux/isaac.js"
   },
   "devDependencies": {
-    "babelify": "^6.0.2",
-    "browserify": "^10.1.0",
+    "babelify": "^6.1.1",
+    "browserify": "^10.2.1",
     "gulp": "^3.8.11",
     "gulp-util": "^3.0.4",
     "object-assign": "^2.0.0",

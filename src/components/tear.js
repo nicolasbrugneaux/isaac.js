@@ -38,12 +38,15 @@ export default class Tear extends DynamicActor
 
     render()
     {
-        const colour = ctx.createRadialGradient( this.center.x, this.center.y, 0, this.center.x, this.center.y, this.sizeX / 2 );
+        const x = Math.round( this.center.x );
+        const y = Math.round( this.center.y );
+
+        const colour = ctx.createRadialGradient( x, y, 0, x, y, this.sizeX / 2 );
         colour.addColorStop( 0,'#0099FF' );
         colour.addColorStop( 1,'#00ABEB' );
 
         ctx.beginPath();
-        ctx.ellipse( this.center.x, this.center.y, this.sizeX / 2, this.sizeX / 2, 0, 0, Math.PI * 2 );
+        ctx.ellipse( x, y, this.sizeX / 2, this.sizeX / 2, 0, 0, Math.PI * 2 );
         ctx.closePath();
 
         ctx.fillStyle = colour;
