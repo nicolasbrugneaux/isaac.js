@@ -2,11 +2,11 @@ import { ctx } from '../canvas';
 
 export default class Actor
 {
-    constructor( sizeX, sizeY, image=null )
+    constructor( { width, height, image } )
     {
-        this.sizeX = sizeX;
-        this.sizeY = sizeY;
-        this.image = image;
+        this.width = width;
+        this.height = height;
+        this.image = image || null;
         this._x = null;
         this._y = null;
 
@@ -15,7 +15,7 @@ export default class Actor
             this.ready = false;
             this._image = new Image();
             this._image.onload = () => this.ready = true;
-            this._image.src = this.image;
+            this._image.src = this.image.src;
         }
         else
         {
@@ -64,8 +64,8 @@ export default class Actor
     get center()
     {
         return {
-            x: this._x + this.sizeX / 2,
-            y: this._y + this.sizeY / 2
+            x: this._x + this.width / 2,
+            y: this._y + this.height / 2
         };
     }
 
@@ -74,11 +74,16 @@ export default class Actor
         const x = Math.round( this._x );
         const y = Math.round( this._y );
 
-        // ctx.fillStyle = 'red';
-        // ctx.fillRect( this._x, this._y, this.sizeX, this.sizeY );
         if ( this.image && this.ready )
         {
-            ctx.drawImage( this._image, x, y );
+            if ( this.image.type === 'image' )
+            {
+                ctx.drawImage( this._image, x, y );
+            }
+            else if ( this.image.type === 'sprite' && this.renderSprite )
+            {
+                this.renderSprite();
+            }
         }
     }
 }

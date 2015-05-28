@@ -5,27 +5,28 @@ import {
     LIMIT_LEFT,
     LIMIT_RIGHT
 } from '../constants';
-import images from '../images';
+import { defaultTear } from '../images/tears';
 
 export default class Tear extends DynamicActor
 {
-    constructor( x, y, direction, speed=3 )
+    constructor( { x, y, direction, speed } )
     {
-        super( 13, 13, images.tears.default );
+        super( { width: 13, height: 13, image: { type: 'image', src: defaultTear } } );
 
         this._x = x;
         this._y = y;
         this.active = true;
+        this._speed = speed || 4;
 
-        this.xVelocity = direction.x * speed;
-        this.yVelocity = direction.y * speed;
+        this.xVelocity = direction.x * this._speed;
+        this.yVelocity = direction.y * this._speed;
 
     }
 
     get inBounds()
     {
-        return LIMIT_LEFT - this.sizeX <= this._x && this._x <= LIMIT_RIGHT + this.sizeX &&
-            LIMIT_TOP - this.sizeY <= this._y && this._y <= LIMIT_BOTTOM + this.sizeY;
+        return LIMIT_LEFT - this.width <= this._x && this._x <= LIMIT_RIGHT + this.width &&
+            LIMIT_TOP - this.height <= this._y && this._y <= LIMIT_BOTTOM + this.height;
     }
 
     update()
@@ -39,8 +40,8 @@ export default class Tear extends DynamicActor
     render()
     {
 
-        if ( LIMIT_LEFT - this.sizeX === this._x || this._x === LIMIT_RIGHT + this.sizeX ||
-            LIMIT_TOP - this.sizeY === this._y && this._y === LIMIT_BOTTOM + this.sizeY )
+        if ( LIMIT_LEFT - this.width === this._x || this._x === LIMIT_RIGHT + this.width ||
+            LIMIT_TOP - this.height === this._y && this._y === LIMIT_BOTTOM + this.height )
         {
             // explode
         }

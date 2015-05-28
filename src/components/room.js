@@ -1,12 +1,12 @@
 import Actor from './actor';
 
-import images from '../images';
+import { defaultRoom } from '../images/rooms';
 
 export default class Room extends Actor
 {
-    constructor( image=images.rooms.default )
+    constructor( { image }={ image: { type: 'image', src: defaultRoom } } )
     {
-        super( 800, 480, image );
+        super( { width: 800, height: 480, image  } );
         this._x = 0;
         this._y = 0;
     }

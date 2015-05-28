@@ -1,4 +1,4 @@
-import { ctx } from '../canvas';
+import { canvas, ctx } from '../canvas';
 import Character from './character';
 import Collection from './collection';
 import Tear from './tear';
@@ -17,18 +17,17 @@ import {
     KEY_A,
     KEY_D
 } from '../constants';
-import images from '../images';
-
-const isaacImg = images.characters.isaac;
-const sprite = new Image();
-sprite.src = isaacImg.sprite;
-
+import { isaac } from '../images/characters';
 
 export default class Isaac extends Character
 {
     constructor()
     {
-        super( 28, 35, null, 200, 'Isaac', 3 );
+        super( { width: 28, height: 35, speed: 200, name: 'Isaac', hp: 3, image:
+        {
+            type: 'sprite',
+            src: isaac.sprite
+        } } );
 
         this._then = Date.now();
         this._lastShoot = false;
@@ -36,9 +35,10 @@ export default class Isaac extends Character
         this._tears = new Collection();
         this._attackSpeed = 500; // 1 shoot / second
         this._direction = {x: 0, y: 1};
-        this.updateImage( this._direction );
         document.addEventListener( 'keydown', ( e ) => this._keysDown.add( e.keyCode ) );
         document.addEventListener( 'keyup', ( e ) => this._keysDown.delete( e.keyCode ) );
+
+        this.respawn();
     }
 
     get x()
@@ -71,8 +71,6 @@ export default class Isaac extends Character
     {
         const deplacement = this.speed * time;
         const keysDown = this._keysDown;
-
-        this.updateImage( false, now );
 
         if ( deplacement === 0 )
         {
@@ -172,71 +170,14 @@ export default class Isaac extends Character
             ( now - this._lastShoot >= this._attackSpeed ) ) )
         {
             this._lastShoot = now;
-            this.updateImage( true, now );
             this.shoot();
         }
     }
 
-    updateImage( isShooting, now )
+    respawn()
     {
-        let head;
-
-        if ( isShooting || ( !isShooting && now - this._lastShoot <= this._attackSpeed / 2 ) )
-        {
-            head = isaacImg.head.shootingDirections;
-        }
-        else
-        {
-            head = isaacImg.head.directions;
-        }
-
-        const direction = this._direction;
-        let x;
-        let y;
-
-        switch ( direction.x )
-        {
-            case -1:
-                // console.log( 'left' );
-                x = head.left[0];
-                y = head.left[1];
-                break;
-            case 1:
-                // console.log( 'right' );
-                x = head.right[0];
-                y = head.right[1];
-                break;
-        }
-
-        switch ( direction.y )
-        {
-            case -1:
-                // console.log( 'up' );
-                x = head.up[0];
-                y = head.up[1];
-                break;
-            case 1:
-                // console.log( 'down' );
-                x = head.down[0];
-                y = head.down[1];
-                break;
-        }
-
-        // leags
-        ctx.drawImage( sprite, 0, 25, 18, 14, this._x + 5, this._y + 20, 18, 14 );
-        // head
-        ctx.drawImage( sprite, x, y,
-            isaacImg.head.width,
-            isaacImg.head.height,
-            this._x, this._y,
-            isaacImg.head.width,
-            isaacImg.head.height );
-    }
-
-    respawn( room )
-    {
-        this.x = room.sizeX / 2;
-        this.y = room.sizeY / 2;
+        this.x = canvas.width / 2;
+        this.y = canvas.height / 2;
     }
 
     shoot()
@@ -270,7 +211,64 @@ export default class Isaac extends Character
                 break;
         }
 
-        this._tears.add( new Tear( x, y, this._direction ) );
+        this._tears.add( new Tear( { x: x, y: y, direction: this._direction } ) );
+    }
+
+    renderSprite()
+    {
+        const isShooting = this._isShooting;
+        const now = Date.now();
+        const direction = this._direction;
+        let head;
+        let x;
+        let y;
+
+        if ( isShooting || ( !isShooting && now - this._lastShoot <= this._attackSpeed / 2 ) )
+        {
+            head = isaac.head.shootingDirections;
+        }
+        else
+        {
+            head = isaac.head.directions;
+        }
+
+        switch ( direction.x )
+        {
+            case -1:
+                // console.log( 'left' );
+                x = head.left[0];
+                y = head.left[1];
+                break;
+            case 1:
+                // console.log( 'right' );
+                x = head.right[0];
+                y = head.right[1];
+                break;
+        }
+
+        switch ( direction.y )
+        {
+            case -1:
+                // console.log( 'up' );
+                x = head.up[0];
+                y = head.up[1];
+                break;
+            case 1:
+                // console.log( 'down' );
+                x = head.down[0];
+                y = head.down[1];
+                break;
+        }
+
+        // leags
+        ctx.drawImage( this._image, 0, 25, 18, 14, this._x + 5, this._y + 20, 18, 14 );
+        // head
+        ctx.drawImage( this._image, x, y,
+            isaac.head.width,
+            isaac.head.height,
+            this._x, this._y,
+            isaac.head.width,
+            isaac.head.height );
     }
 
     render()

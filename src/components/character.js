@@ -2,9 +2,9 @@ import DynamicActor from './dynamic-actor';
 
 export default class Character extends DynamicActor
 {
-    constructor( sizeX, sizeY, image, speed, name, hp )
+    constructor( { width, height, image, speed, name, hp } )
     {
-        super( sizeX, sizeY, image );
+        super( { width, height, image } );
 
         this._speed = speed;
         this._hp = hp;
