@@ -35,7 +35,17 @@ export default class TearCollection
         this._collection = this._collection.filter( ( item ) =>
         {
             item.update();
-            return item.active;
+            if ( !item.active )
+            {
+                if ( item.renderDestroy )
+                {
+                    item.renderDestroy();
+                }
+
+                return false;
+            }
+
+            return true;
         } );
     }
 

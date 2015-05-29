@@ -12,7 +12,7 @@ export default class Rock extends StaticActor
             src: rocks.sprite
         } } );
 
-        this._isSpecial = Math.random() < 0.1;
+        this._isSpecial = Math.random() < 0.05;
     }
 
     renderSprite()

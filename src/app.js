@@ -1,32 +1,13 @@
-import Isaac from './components/isaac';
-import Room from './components/room';
-import Rock from './components/rock';
 import { displayCtx, canvas } from './canvas';
-
-
-const layers =
-{
-    background: new Room(),
-    foreground:
-    [
-        [
-            new Rock( { x: 75, y: 65 } ),
-            new Rock( { x: 125, y: 65 } ),
-            new Rock( { x: 175, y: 65 } )
-        ],
-        new Isaac()
-    ]
-};
+import { foreground, background } from './layers';
 
 const main = () =>
 {
+    background.render();
 
-    layers.background.render();
-
-
-    for ( let i=0, len=layers.foreground.length; i < len; i++ )
+    for ( let i=0, len=foreground.length; i < len; i++ )
     {
-        let actor = layers.foreground[i];
+        let actor = foreground[i];
 
         if ( Array.isArray( actor ) )
         {

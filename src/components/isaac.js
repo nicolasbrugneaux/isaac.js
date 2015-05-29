@@ -1,8 +1,10 @@
 import { canvas, ctx } from '../canvas';
+import { foreground } from '../layers';
 import Character from './character';
 import Collection from './collection';
 import Tear from './tear';
 import repeat from '../utils/string/repeat';
+import isColliding from '../utils/physics/is-colliding';
 import {
     LIMIT_TOP_ISAAC,
     LIMIT_BOTTOM_ISAAC,
@@ -48,9 +50,20 @@ export default class Isaac extends Character
 
     set x( value )
     {
-        if ( value !== this._x && LIMIT_LEFT_ISAAC < value && value < LIMIT_RIGHT_ISAAC )
+        if ( value !== this._x &&
+            LIMIT_LEFT_ISAAC < value && value < LIMIT_RIGHT_ISAAC )
         {
+            const oldX = this._x;
             this._x = value;
+
+            if ( !isColliding( this, foreground ) )
+            {
+                this._x = value;
+            }
+            else
+            {
+                this._x = oldX;
+            }
         }
     }
 
@@ -61,9 +74,20 @@ export default class Isaac extends Character
 
     set y( value )
     {
-        if ( value !== this._x && LIMIT_TOP_ISAAC < value && value < LIMIT_BOTTOM_ISAAC )
+        if ( value !== this._y &&
+            LIMIT_TOP_ISAAC < value && value < LIMIT_BOTTOM_ISAAC )
         {
+            const oldY = this._y;
             this._y = value;
+
+            if ( !isColliding( this, foreground ) )
+            {
+                this._y = value;
+            }
+            else
+            {
+                this._y = oldY;
+            }
         }
     }
 
@@ -81,6 +105,8 @@ export default class Isaac extends Character
         {
             return false;
         }
+
+         // diagonal distance should be +-Math.sqrt( deplacement / 2 )... but it feels so slow.
 
         if ( keysDown.has( KEY_W ) &&
             !( keysDown.has( KEY_A ) || keysDown.has( KEY_D ) ) ) // vertical
@@ -121,8 +147,6 @@ export default class Isaac extends Character
         }
 
         this.updateDirection( now );
-
-        return true;
     }
 
 
@@ -176,8 +200,8 @@ export default class Isaac extends Character
 
     respawn()
     {
-        this.x = canvas.width / 2;
-        this.y = canvas.height / 2;
+        this._x = canvas.width / 2;
+        this._y = canvas.height / 2;
     }
 
     shoot()
@@ -211,7 +235,7 @@ export default class Isaac extends Character
                 break;
         }
 
-        this._tears.add( new Tear( { x: x, y: y, direction: this._direction } ) );
+        this._tears.add( new Tear( { x: x, y: y, direction: this._direction, creator: this } ) );
     }
 
     renderSprite()
