@@ -52,7 +52,7 @@ export default class Actor
 
     get y()
     {
-        return this._x;
+        return this._y;
     }
 
     set y( value )
