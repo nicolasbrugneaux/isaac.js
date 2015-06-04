@@ -18,12 +18,16 @@ export const foreground =
         new Rock( { x: 165, y: 65 } ),
         new Rock( { x: 65, y: 116 } ),
         new Rock( { x: 115, y: 116 } ),
-        new Rock( { x: 165, y: 116 } ),
-        new Fire( { x: 703, y: 65 } )
+        new Rock( { x: 165, y: 116 } )
     ],
     // monsters
     [
+        new Fire( { x: 703, y: 65 } )
     ],
     // player
     new Isaac(),
 ];
+
+export const obstacles = foreground[0];
+export const monsters = foreground[1];
+export const player = foreground[2];

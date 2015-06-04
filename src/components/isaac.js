@@ -1,5 +1,5 @@
 import { canvas, ctx } from '../canvas';
-import { foreground } from '../layers';
+import { monsters, obstacles } from '../layers';
 import Character from './character';
 import Collection from './collection';
 import Tear from './tear';
@@ -40,6 +40,10 @@ export default class Isaac extends Character
         document.addEventListener( 'keydown', ( e ) => this._keysDown.add( e.keyCode ) );
         document.addEventListener( 'keyup', ( e ) => this._keysDown.delete( e.keyCode ) );
 
+        this._canTakeDmg = true;
+        this._dmgInterval = 500;
+        this._lastDmg = Date.now();
+
         this.respawn();
     }
 
@@ -55,14 +59,22 @@ export default class Isaac extends Character
         {
             const oldX = this._x;
             this._x = value;
+            const shouldTakeDmg = isColliding( this, monsters );
 
-            if ( !isColliding( this, foreground ) )
+            if ( !shouldTakeDmg && !isColliding( this, obstacles ) )
             {
                 this._x = value;
             }
             else
             {
                 this._x = oldX;
+
+                const now = Date.now();
+                if ( shouldTakeDmg && now - this._lastDmg > this._dmgInterval )
+                {
+                    this.hp -= 1;
+                    this._lastDmg = now;
+                }
             }
         }
     }
@@ -80,13 +92,22 @@ export default class Isaac extends Character
             const oldY = this._y;
             this._y = value;
 
-            if ( !isColliding( this, foreground ) )
+            const shouldTakeDmg = isColliding( this, monsters );
+
+            if ( !shouldTakeDmg && !isColliding( this, obstacles ) )
             {
                 this._y = value;
             }
             else
             {
+                const now = Date.now();
                 this._y = oldY;
+
+                if ( shouldTakeDmg && now - this._lastDmg > this._dmgInterval )
+                {
+                    this.hp -= 1;
+                    this._lastDmg = now;
+                }
             }
         }
     }

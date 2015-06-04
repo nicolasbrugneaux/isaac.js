@@ -8,6 +8,7 @@ export default class Character extends DynamicActor
 
         this._speed = speed;
         this._hp = hp;
+        this._originalHp = hp;
         this._name = name;
     }
 
@@ -28,9 +29,17 @@ export default class Character extends DynamicActor
 
     set hp( value )
     {
-        if ( 0 >= value && value < 10 )
+        if ( 0 < value )
         {
             this._hp = value;
+        }
+        else
+        {
+            this._hp = this._originalHp;
+            if ( this.respawn )
+            {
+                this.respawn();
+            }
         }
     }
 }
