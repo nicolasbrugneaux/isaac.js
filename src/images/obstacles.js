@@ -15,7 +15,16 @@ export const rocks =
     },
 };
 
+export const fire =
+{
+    sprite: 'build/img/fire_sprite.png',
+    width: 31,
+    height: 34,
+    states: 6
+};
+
 export default
 {
-    rocks
+    rocks,
+    fire
 };
