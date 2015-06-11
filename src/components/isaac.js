@@ -136,7 +136,7 @@ export default class Isaac extends Character
         }
         else if ( keysDown.has( KEY_W ) ) // diagonal
         {
-            this.y -= Math.sqrt( deplacement );
+            this.y -= Math.sqrt( Math.pow( deplacement, 2 ) / 2 );
         }
         else if ( keysDown.has( KEY_S ) &&
             !( keysDown.has( KEY_A ) || keysDown.has( KEY_D ) ) ) //vertical
@@ -145,26 +145,26 @@ export default class Isaac extends Character
         }
         else if ( keysDown.has( KEY_S ) ) // diagonal
         {
-            this.y += Math.sqrt( deplacement );
+            this.y += Math.sqrt( Math.pow( deplacement, 2 ) / 2 );
         }
 
         if ( keysDown.has( KEY_A ) &&
-            !( keysDown.has( KEY_W ) || keysDown.has( KEY_S ) ) )
+            !( keysDown.has( KEY_W ) || keysDown.has( KEY_S ) ) ) // horizontal
         {
             this.x -= deplacement;
         }
-        else if ( keysDown.has( KEY_A ) )
+        else if ( keysDown.has( KEY_A ) ) // diagonal
         {
-            this.x -= Math.sqrt( deplacement );
+            this.x -= Math.sqrt( Math.pow( deplacement, 2 ) / 2 );
         }
         else if ( keysDown.has( KEY_D ) &&
-            !( keysDown.has( KEY_W ) || keysDown.has( KEY_S ) ) )
+            !( keysDown.has( KEY_W ) || keysDown.has( KEY_S ) ) ) // horizontal
         {
             this.x += deplacement;
         }
-        else if ( keysDown.has( KEY_D ) )
+        else if ( keysDown.has( KEY_D ) ) // diagonal
         {
-            this.x += Math.sqrt( deplacement );
+            this.x += Math.sqrt( Math.pow( deplacement, 2 ) / 2 );
         }
 
         this.updateDirection( now );
