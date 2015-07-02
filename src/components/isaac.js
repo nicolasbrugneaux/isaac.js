@@ -1,10 +1,9 @@
-import { canvas, ctx } from '../canvas';
-import { monsters, obstacles } from '../layers';
-import Character from './character';
-import Collection from './collection';
-import Tear from './tear';
-import repeat from '../utils/string/repeat';
-import isColliding from '../utils/physics/is-colliding';
+import { canvas, ctx } from 'canvas';
+import Store from 'store';
+import Character from 'components/character';
+import Tear from 'components/tear';
+import repeat from 'utils/string/repeat';
+import isColliding from 'utils/physics/is-colliding';
 import {
     LIMIT_TOP_ISAAC,
     LIMIT_BOTTOM_ISAAC,
@@ -19,7 +18,7 @@ import {
     KEY_A,
     KEY_D
 } from '../constants';
-import { isaac } from '../images/characters';
+import { isaac } from 'images/characters';
 
 export default class Isaac extends Character
 {
@@ -34,13 +33,15 @@ export default class Isaac extends Character
         this._then = Date.now();
         this._lastShoot = false;
         this._keysDown = new Set();
-        this._tears = new Collection();
+        this._tears = Store.get( 'tears' );
         this._attackSpeed = 500; // 1 shoot / second
+        this.damages = 1;
         this._direction = {x: 0, y: 1};
+        this.collidingWidth = this.width - 2;
+        this.collidingHeight = this.height - 10;
         document.addEventListener( 'keydown', ( e ) => this._keysDown.add( e.keyCode ) );
         document.addEventListener( 'keyup', ( e ) => this._keysDown.delete( e.keyCode ) );
 
-        this._canTakeDmg = true;
         this._dmgInterval = 500;
         this._lastDmg = Date.now();
 
@@ -59,9 +60,9 @@ export default class Isaac extends Character
         {
             const oldX = this._x;
             this._x = value;
-            const shouldTakeDmg = isColliding( this, monsters );
+            const collider = isColliding( this, Store.get( 'monsters' ) );
 
-            if ( !shouldTakeDmg && !isColliding( this, obstacles ) )
+            if ( !collider && !isColliding( this, Store.get( 'obstacles' ) ) )
             {
                 this._x = value;
             }
@@ -70,9 +71,9 @@ export default class Isaac extends Character
                 this._x = oldX;
 
                 const now = Date.now();
-                if ( shouldTakeDmg && now - this._lastDmg > this._dmgInterval )
+                if ( collider && now - this._lastDmg > this._dmgInterval )
                 {
-                    this.hp -= 1;
+                    this.hp -= collider.damages || 1;
                     this._lastDmg = now;
                 }
             }
@@ -92,9 +93,9 @@ export default class Isaac extends Character
             const oldY = this._y;
             this._y = value;
 
-            const shouldTakeDmg = isColliding( this, monsters );
+            const collider = isColliding( this, Store.get( 'monsters' ) );
 
-            if ( !shouldTakeDmg && !isColliding( this, obstacles ) )
+            if ( !collider && !isColliding( this, Store.get( 'obstacles' ) ) )
             {
                 this._y = value;
             }
@@ -103,9 +104,9 @@ export default class Isaac extends Character
                 const now = Date.now();
                 this._y = oldY;
 
-                if ( shouldTakeDmg && now - this._lastDmg > this._dmgInterval )
+                if ( collider && now - this._lastDmg > this._dmgInterval )
                 {
-                    this.hp -= 1;
+                    this.hp -= collider.damages || 1;
                     this._lastDmg = now;
                 }
             }
@@ -256,7 +257,7 @@ export default class Isaac extends Character
                 break;
         }
 
-        this._tears.add( new Tear( { x: x, y: y, direction: this._direction, creator: this } ) );
+        this._tears.push( new Tear( { x: x, y: y, direction: this._direction, creator: this, damages: this.damages } ) );
     }
 
     renderSprite()
@@ -280,12 +281,10 @@ export default class Isaac extends Character
         switch ( direction.x )
         {
             case -1:
-                // console.log( 'left' );
                 x = head.left[0];
                 y = head.left[1];
                 break;
             case 1:
-                // console.log( 'right' );
                 x = head.right[0];
                 y = head.right[1];
                 break;
@@ -294,12 +293,10 @@ export default class Isaac extends Character
         switch ( direction.y )
         {
             case -1:
-                // console.log( 'up' );
                 x = head.up[0];
                 y = head.up[1];
                 break;
             case 1:
-                // console.log( 'down' );
                 x = head.down[0];
                 y = head.down[1];
                 break;
@@ -324,9 +321,6 @@ export default class Isaac extends Character
 
         this.update( delta / 1000, now );
         super.render();
-
-        this._tears.update();
-        this._tears.render();
 
         ctx.fillStyle = 'rgb(250, 50, 50)';
         ctx.font = '20px Helvetica';

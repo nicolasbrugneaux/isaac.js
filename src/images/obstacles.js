@@ -1,6 +1,8 @@
 export const rocks =
 {
     sprite: 'build/img/rocks_sprite.png',
+    width: 170,
+    height: 172,
     default:
     {
         width: 170,
@@ -18,6 +20,7 @@ export const rocks =
 export const fire =
 {
     sprite: 'build/img/fire_sprite.png',
+    dead: 'build/img/fire_dead.png',
     width: 31,
     height: 34,
     states: 6

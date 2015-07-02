@@ -1,4 +1,4 @@
-import { canvas } from './canvas';
+import { canvas } from 'canvas';
 
 export const LIMIT_TOP_ISAAC = 40;
 export const LIMIT_BOTTOM_ISAAC = canvas.height - 95;

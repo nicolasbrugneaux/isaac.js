@@ -1,4 +1,4 @@
-import DynamicActor from './dynamic-actor';
+import DynamicActor from 'components/dynamic-actor';
 
 export default class Character extends DynamicActor
 {

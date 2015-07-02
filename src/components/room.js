@@ -1,6 +1,5 @@
-import Actor from './actor';
-
-import { defaultRoom } from '../images/rooms';
+import Actor from 'components/actor';
+import { defaultRoom } from 'images/rooms';
 
 export default class Room extends Actor
 {

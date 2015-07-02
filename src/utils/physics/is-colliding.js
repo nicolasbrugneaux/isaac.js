@@ -1,3 +1,5 @@
+import Collection from 'components/collection';
+
 const isColliding = ( target, other ) =>
 {
     // ignore collision with self
@@ -7,26 +9,40 @@ const isColliding = ( target, other ) =>
     }
 
     const x = target.x;
-    const width = target.width;
+    const width = target.collidingWidth || target.width;
     const y = target.y;
-    const height = target.height;
+    const height = target.collidingHeight || target.height;
 
-    if ( Array.isArray( other ) )
+    if ( Array.isArray( other ) || other instanceof Collection )
     {
-        return other.some( _other => isColliding( target, _other ) );
+        for ( let i=0, len=other.length; i < len; i++ )
+        {
+            const collider = isColliding( target, other[i] );
+            if ( collider )
+            {
+                return collider;
+            }
+        }
+
+        return false;
     }
 
     const _x = other.x;
-    const _width = other.width;
+    const _width = other.collidingWidth || other.width;
     const _y = other.y;
-    const _height = other.height;
+    const _height = other.collidingHeight || other.height;
 
-    const top = y + height + 2 >= _y;
+    const top = y + height >= _y;
     const right = x <= _x + _width;
-    const bottom = y + height - 10 <= _y + _height;
+    const bottom = y + height <= _y + _height;
     const left = x + width >= _x;
 
-    return left && right && bottom && top;
+    if ( left && right && bottom && top )
+    {
+        return other;
+    }
+
+    return false;
 };
 
 export default isColliding;

@@ -1,59 +1,82 @@
-export default class TearCollection
+export default class Collection extends Array
 {
-    constructor()
+    constructor( { collection=[], shouldUpdateBeforeRender=false, shouldUpdateAfterRender=false } )
     {
-        this._collection = [];
-    }
+        super();
+        this.push( ...collection );
 
-    get length()
-    {
-        return this._collection.length;
+        this._shouldUpdateBeforeRender = shouldUpdateBeforeRender;
+        this._shouldUpdateAfterRender = shouldUpdateAfterRender;
     }
 
     get isEmpty()
     {
-        return this._collection.length === 0;
-    }
-
-    add( item )
-    {
-        this._collection.push( item );
+        return this.length === 0;
     }
 
     remove( item )
     {
-        const index = this._collection.indexOf( item );
+        const index = this.indexOf( item );
 
         if ( index > -1 )
         {
-            this._collection.splice( index, 1 );
+            this.splice( index, 1 );
         }
     }
 
     update()
     {
-        this._collection = this._collection.filter( ( item ) =>
+        const len=this.length;
+        const newThis = [];
+
+        for ( let i=0; i < len; i++ )
         {
-            item.update();
-            if ( !item.active )
+            const item = this[i];
+
+            if ( item.update )
+            {
+                item.update();
+            }
+
+            if ( item.active === false )
             {
                 if ( item.renderDestroy )
                 {
                     item.renderDestroy();
                 }
-
-                return false;
             }
+            else
+            {
+                newThis.push( item );
+            }
+        }
 
-            return true;
-        } );
+        if ( newThis.length !== len )
+        {
+            this.splice( len - 1 );
+
+            for ( let i=0, len=newThis.length; i < len; i++ )
+            {
+                this[i] = newThis[i];
+            }
+        }
     }
 
     render()
     {
-        for ( let i=0, len=this._collection.length; i < len; i++ )
+        if ( this._shouldUpdateBeforeRender && !this.isEmpty )
         {
-            this._collection[i].render();
+            this.update();
+        }
+
+        for ( let i=0, len=this.length; i < len; i++ )
+        {
+            this[i].render();
+        }
+
+        if ( this._shouldUpdateAfterRender && !this.isEmpty )
+        {
+            this.update();
         }
     }
 }

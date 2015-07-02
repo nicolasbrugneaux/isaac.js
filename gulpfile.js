@@ -8,7 +8,7 @@ var assign = require( 'object-assign' );
 
 
 var bundler = watchify( browserify( './src/app.js',
-    assign( watchify.args, { debug: true } ) ) ); //add inline sourcemap
+    assign( watchify.args, { debug: true, paths: ['./src/'] } ) ) ); //add inline sourcemap
 // add any other browserify options or transforms here
 bundler.transform( babelify.configure(
 {

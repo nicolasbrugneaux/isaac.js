@@ -1,3 +1,4 @@
+/* @flow */
 import { ctx } from '../canvas';
 
 export default class Actor

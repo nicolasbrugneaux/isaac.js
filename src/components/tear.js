@@ -1,17 +1,17 @@
-import DynamicActor from './dynamic-actor';
+import DynamicActor from 'components/dynamic-actor';
 import {
     LIMIT_TOP,
     LIMIT_BOTTOM,
     LIMIT_LEFT,
     LIMIT_RIGHT
 } from '../constants';
-import { defaultTear } from '../images/tears';
-import { foreground } from '../layers';
-import isColliding from '../utils/physics/is-colliding';
+import { defaultTear } from 'images/tears';
+import { foreground } from 'layers';
+import isColliding from 'utils/physics/is-colliding';
 
 export default class Tear extends DynamicActor
 {
-    constructor( { x, y, direction, speed, creator } )
+    constructor( { x, y, direction, speed, creator, damages } )
     {
         super( { width: 13, height: 13, image: { type: 'image', src: defaultTear } } );
 
@@ -20,6 +20,7 @@ export default class Tear extends DynamicActor
         this.active = true;
         this._speed = speed || 4;
         this._creator = creator;
+        this.damages = damages;
 
         this.xVelocity = direction.x * this._speed;
         this.yVelocity = direction.y * this._speed;
@@ -28,10 +29,25 @@ export default class Tear extends DynamicActor
 
     get inBounds()
     {
-        return LIMIT_LEFT - this.width <= this._x && this._x <= LIMIT_RIGHT + this.width &&
-            LIMIT_TOP - this.height <= this._y && this._y <= LIMIT_BOTTOM + this.height &&
+        if ( LIMIT_LEFT - this.width > this._x || this._x > LIMIT_RIGHT + this.width ||
+            LIMIT_TOP - this.height > this._y || this._y > LIMIT_BOTTOM + this.height )
+        {
+            return false;
+        }
 
-            !isColliding( this, foreground.filter( item => item !== this._creator ) );
+        const collider = isColliding( this, foreground.filter( item => item !== this._creator ) );
+        if ( collider )
+        {
+            if ( typeof collider.hp === "number" )
+            {
+
+                collider.hp -= this.damages;
+            }
+
+            return false;
+        }
+
+        return true;
     }
 
     update()
