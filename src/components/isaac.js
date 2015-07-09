@@ -252,8 +252,7 @@ export default class Isaac extends Character
             ( !this._lastBomb || 500 <= now - this._lastBomb ) )
         {
             this._lastBomb = now;
-            console.log( 'droppin the bomb!' );
-            // this.dropBomb();
+            this.dropBomb();
         }
     }
 
@@ -261,6 +260,19 @@ export default class Isaac extends Character
     {
         this._x = canvas.width / 2;
         this._y = canvas.height / 2;
+    }
+
+    dropBomb()
+    {
+        console.log( 'droppin\' the bomb!' );
+        const playerItems = Store.get( 'playerItems' );
+        const existingItem = playerItems.get( 'bomb' );
+
+        if ( existingItem.quantity )
+        {
+            existingItem.quantity -= 1;
+            playerItems.set( 'bomb', existingItem );
+        }
     }
 
     shoot()
