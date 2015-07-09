@@ -139,6 +139,7 @@ export default class Isaac extends Character
     {
         const deplacement = this.speed * time;
         const keysDown = this._keysDown;
+        const direction = { x: 0, y: 1, };
 
         if ( 0 === deplacement )
         {
@@ -150,12 +151,11 @@ export default class Isaac extends Character
             return false;
         }
 
-         // diagonal distance should be +-Math.sqrt( deplacement / 2 )... but it feels so slow.
-
         if ( keysDown.has( KEY_W ) &&
             !( keysDown.has( KEY_A ) || keysDown.has( KEY_D ) ) ) // vertical
         {
             this.y -= deplacement;
+            direction.y = -1;
         }
         else if ( keysDown.has( KEY_W ) ) // diagonal
         {
@@ -165,6 +165,7 @@ export default class Isaac extends Character
             !( keysDown.has( KEY_A ) || keysDown.has( KEY_D ) ) ) // vertical
         {
             this.y += deplacement;
+            direction.y = 1;
         }
         else if ( keysDown.has( KEY_S ) ) // diagonal
         {
@@ -175,30 +176,36 @@ export default class Isaac extends Character
             !( keysDown.has( KEY_W ) || keysDown.has( KEY_S ) ) ) // horizontal
         {
             this.x -= deplacement;
+            direction.x = -1;
         }
         else if ( keysDown.has( KEY_A ) ) // diagonal
         {
             this.x -= Math.sqrt( Math.pow( deplacement, 2 ) / 2 );
+            direction.x = -1;
         }
         else if ( keysDown.has( KEY_D ) &&
             !( keysDown.has( KEY_W ) || keysDown.has( KEY_S ) ) ) // horizontal
         {
             this.x += deplacement;
+            direction.x = 1;
         }
         else if ( keysDown.has( KEY_D ) ) // diagonal
         {
             this.x += Math.sqrt( Math.pow( deplacement, 2 ) / 2 );
+            direction.x = 1;
         }
 
-        this.updateDirection( now );
+        this._direction = direction;
+
+        this.updateShootingDirection( now );
     }
 
 
-    updateDirection( now )
+    updateShootingDirection( now )
     {
         const keysDown = this._keysDown;
+        const direction = {};
 
-        let direction = {};
         if ( keysDown.has( KEY_UP ) )
         {
             direction.y = -1;
@@ -318,25 +325,24 @@ export default class Isaac extends Character
         switch ( direction.x )
         {
             case -1:
-                x = head.left[0];
-                y = head.left[1];
+                [ x, y ] = head.left;
                 break;
             case 1:
-                x = head.right[0];
-                y = head.right[1];
+                [ x, y ] = head.right;
                 break;
         }
 
-        switch ( direction.y )
+        if ( isShooting || ( !isShooting && !x ) )
         {
-            case -1:
-                x = head.up[0];
-                y = head.up[1];
-                break;
-            case 1:
-                x = head.down[0];
-                y = head.down[1];
-                break;
+            switch ( direction.y )
+            {
+                case -1:
+                    [ x, y ] = head.up;
+                    break;
+                case 1:
+                    [ x, y ] = head.down;
+                    break;
+            }
         }
 
         // leags
