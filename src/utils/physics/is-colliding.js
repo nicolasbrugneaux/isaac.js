@@ -15,7 +15,7 @@ const isColliding = ( target, other ) =>
 
     if ( Array.isArray( other ) || other instanceof Collection )
     {
-        for ( let i=0, len=other.length; i < len; i++ )
+        for ( let i = 0, len = other.length; i < len; i++ )
         {
             const collider = isColliding( target, other[i] );
             if ( collider )

@@ -27,8 +27,8 @@ export default class Isaac extends Character
         super( { width: 28, height: 35, speed: 200, name: 'Isaac', hp: 3, image:
         {
             type: 'sprite',
-            src: isaac.sprite
-        } } );
+            src: isaac.sprite,
+        }, } );
 
         this._then = Date.now();
         this._lastShoot = false;
@@ -36,7 +36,7 @@ export default class Isaac extends Character
         this._tears = Store.get( 'tears' );
         this._attackSpeed = 500; // 1 shoot / second
         this.damages = 1;
-        this._direction = {x: 0, y: 1};
+        this._direction = { x: 0, y: 1, };
         this.collidingWidth = this.width - 2;
         this.collidingHeight = this.height - 10;
         document.addEventListener( 'keydown', ( e ) => this._keysDown.add( e.keyCode ) );
@@ -118,12 +118,12 @@ export default class Isaac extends Character
         const deplacement = this.speed * time;
         const keysDown = this._keysDown;
 
-        if ( deplacement === 0 )
+        if ( 0 === deplacement )
         {
             return false;
         }
 
-        if ( keysDown.size === 0 )
+        if ( 0 === keysDown.size )
         {
             return false;
         }
@@ -140,7 +140,7 @@ export default class Isaac extends Character
             this.y -= Math.sqrt( Math.pow( deplacement, 2 ) / 2 );
         }
         else if ( keysDown.has( KEY_S ) &&
-            !( keysDown.has( KEY_A ) || keysDown.has( KEY_D ) ) ) //vertical
+            !( keysDown.has( KEY_A ) || keysDown.has( KEY_D ) ) ) // vertical
         {
             this.y += deplacement;
         }
@@ -190,7 +190,7 @@ export default class Isaac extends Character
             direction.y = 0;
         }
 
-        if  ( keysDown.has( KEY_LEFT ) )
+        if ( keysDown.has( KEY_LEFT ) )
         {
             direction.x = -1;
         }
@@ -203,7 +203,7 @@ export default class Isaac extends Character
             direction.x = 0;
         }
 
-        if ( direction.x !== 0 || direction.y !== 0 )
+        if ( 0 !== direction.x || 0 !== direction.y )
         {
             this._direction = direction;
         }
@@ -257,7 +257,14 @@ export default class Isaac extends Character
                 break;
         }
 
-        this._tears.push( new Tear( { x: x, y: y, direction: this._direction, creator: this, damages: this.damages } ) );
+        this._tears.push( new Tear(
+        {
+            x,
+            y,
+            direction: this._direction,
+            creator: this,
+            damages: this.damages,
+        } ) );
     }
 
     renderSprite()

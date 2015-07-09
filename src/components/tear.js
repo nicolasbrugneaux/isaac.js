@@ -13,7 +13,7 @@ export default class Tear extends DynamicActor
 {
     constructor( { x, y, direction, speed, creator, damages } )
     {
-        super( { width: 13, height: 13, image: { type: 'image', src: defaultTear } } );
+        super( { width: 13, height: 13, image: { type: 'image', src: defaultTear, }, } );
 
         this._x = x;
         this._y = y;
@@ -38,7 +38,7 @@ export default class Tear extends DynamicActor
         const collider = isColliding( this, foreground.filter( item => item !== this._creator ) );
         if ( collider )
         {
-            if ( typeof collider.hp === "number" )
+            if ( 'number' === typeof collider.hp )
             {
 
                 collider.hp -= this.damages;

@@ -9,8 +9,8 @@ export default class Fire extends DestructibleStaticActor
         super( { x, y, width: fire.width, height: fire.height, hp: 3, image:
         {
             type: 'sprite',
-            src: fire.sprite
-        } } );
+            src: fire.sprite,
+        }, } );
 
         this._state = 0;
         this._states = fire.states;
@@ -21,7 +21,7 @@ export default class Fire extends DestructibleStaticActor
 
     renderSprite()
     {
-        if ( this.hp === 0 )
+        if ( 0 === this.hp )
         {
             this.setImage( fire.sprite );
             super.render();

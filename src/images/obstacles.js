@@ -7,13 +7,13 @@ export const rocks =
     {
         width: 170,
         height: 172,
-        position: [0, 0]
+        position: [0, 0, ],
     },
     special:
     {
         width: 170,
         height: 172,
-        position: [170, 0]
+        position: [170, 0, ],
     },
 };
 
@@ -23,11 +23,11 @@ export const fire =
     dead: 'build/img/fire_dead.png',
     width: 31,
     height: 34,
-    states: 6
+    states: 6,
 };
 
 export default
 {
     rocks,
-    fire
+    fire,
 };

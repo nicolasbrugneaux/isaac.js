@@ -9,10 +9,10 @@ export default class Rock extends StaticActor
         super( { x, y, width: 50, height: 51, image:
         {
             type: 'sprite',
-            src: rocks.sprite
-        } } );
+            src: rocks.sprite,
+        }, } );
 
-        this._isSpecial = Math.random() < 0.05;
+        this._isSpecial = 0.05 > Math.random();
     }
 
     renderSprite()

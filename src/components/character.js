@@ -4,7 +4,7 @@ export default class Character extends DynamicActor
 {
     constructor( { width, height, image, speed, name, hp } )
     {
-        super( { width, height, image } );
+        super( { width, height, image, } );
 
         this._speed = speed;
         this._hp = hp;

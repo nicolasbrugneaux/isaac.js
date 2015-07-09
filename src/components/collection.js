@@ -11,14 +11,14 @@ export default class Collection extends Array
 
     get isEmpty()
     {
-        return this.length === 0;
+        return 0 === this.length;
     }
 
     remove( item )
     {
         const index = this.indexOf( item );
 
-        if ( index > -1 )
+        if ( -1 < index )
         {
             this.splice( index, 1 );
         }
@@ -26,10 +26,10 @@ export default class Collection extends Array
 
     update()
     {
-        const len=this.length;
+        const len = this.length;
         const newThis = [];
 
-        for ( let i=0; i < len; i++ )
+        for ( let i = 0; i < len; i++ )
         {
             const item = this[i];
 
@@ -38,7 +38,7 @@ export default class Collection extends Array
                 item.update();
             }
 
-            if ( item.active === false )
+            if ( false === item.active )
             {
                 if ( item.renderDestroy )
                 {
@@ -55,9 +55,9 @@ export default class Collection extends Array
         {
             this.splice( len - 1 );
 
-            for ( let i=0, len=newThis.length; i < len; i++ )
+            for ( let j = 0, lenj = newThis.length; j < lenj; j++ )
             {
-                this[i] = newThis[i];
+                this[j] = newThis[j];
             }
         }
     }
@@ -69,7 +69,7 @@ export default class Collection extends Array
             this.update();
         }
 
-        for ( let i=0, len=this.length; i < len; i++ )
+        for ( let i = 0, len = this.length; i < len; i++ )
         {
             this[i].render();
         }

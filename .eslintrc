@@ -1,0 +1,49 @@
+{
+    "parser": "babel-eslint",
+    "rules": {
+        "strict": 0,
+        "eqeqeq": 2,
+        "quotes": [2, "single"],
+        "comma-dangle": [2, "always"],
+        "no-underscore-dangle": 0,
+        "no-var": 2,
+        "generator-star-spacing": 2,
+        "object-shorthand": 2,
+        "spaced-comment":1,
+        "space-in-parens": [2, "always"],
+        "semi": [2, "always"],
+        "yoda": [2, "always"]
+    },
+    "ecmaFeatures": {
+        "blockBindings": true,
+        "forOf": true,
+        "jsx": true,
+        "arrowFunctions": true,
+        "binaryLiterals": true,
+        "blockBindings": true,
+        "classes": true,
+        "defaultParams": true,
+        "destructuring": true,
+        "forOf": true,
+        "generators": true,
+        "modules": true,
+        "objectLiteralComputedProperties": true,
+        "objectLiteralDuplicateProperties": true,
+        "objectLiteralShorthandMethods": true,
+        "objectLiteralShorthandProperties": true,
+        "octalLiterals": true,
+        "regexUFlag": true,
+        "regexYFlag": true,
+        "restParams": true,
+        "spread": true,
+        "superInFunctions": true,
+        "templateStrings": true,
+        "unicodeCodePointEscapes": true,
+        "globalReturn": true,
+        "jsx": true
+    },
+    "env": {
+        "browser": true,
+        "es6": true
+    }
+}

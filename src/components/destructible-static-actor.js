@@ -1,12 +1,10 @@
 import StaticActor from 'components/static-actor';
-import Store from 'store';
-import isColliding from 'utils/physics/is-colliding';
 
 export default class DestructibleStaticActor extends StaticActor
 {
     constructor( { x, y, width, height, image, hp } )
     {
-        super( { x, y, width, height, image } );
+        super( { x, y, width, height, image, } );
 
         this._hp = hp;
         this.active = true;

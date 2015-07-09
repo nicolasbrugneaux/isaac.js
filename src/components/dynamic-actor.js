@@ -4,7 +4,7 @@ export default class DynamicActor extends Actor
 {
     constructor( { width, height, image, speed } )
     {
-        super( { width, height, image } );
+        super( { width, height, image, } );
 
         this._speed = speed || 256;
     }

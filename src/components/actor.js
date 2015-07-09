@@ -1,4 +1,3 @@
-/* @flow */
 import { ctx } from '../canvas';
 
 export default class Actor
@@ -26,7 +25,7 @@ export default class Actor
 
     setImage( image, type='image' )
     {
-        if ( type === 'canvas' )
+        if ( 'canvas' === type )
         {
             this.image = true;
             this._image = image;
@@ -66,7 +65,7 @@ export default class Actor
     {
         return {
             x: this._x + this.width / 2,
-            y: this._y + this.height / 2
+            y: this._y + this.height / 2,
         };
     }
 
@@ -79,11 +78,11 @@ export default class Actor
 
         if ( this.image && this.ready )
         {
-            if ( this.image.type === 'image' )
+            if ( 'image' === this.image.type )
             {
                 ctx.drawImage( this._image, x, y );
             }
-            else if ( this.image.type === 'sprite' && this.renderSprite )
+            else if ( 'sprite' === this.image.type && this.renderSprite )
             {
                 this.renderSprite();
             }
