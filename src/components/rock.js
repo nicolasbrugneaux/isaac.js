@@ -17,8 +17,7 @@ export default class Rock extends StaticActor
 
     renderSprite()
     {
-        const x = this._isSpecial ? rocks.special.position[0] : rocks.default.position[0];
-        const y = 0;
+        const [ x, y ] = this._isSpecial ? rocks.special.position : rocks.default.position;
 
         ctx.drawImage( this._image, x, y, rocks.width, rocks.height, this._x, this._y, this.width, this.height );
     }

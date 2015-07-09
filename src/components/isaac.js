@@ -2,7 +2,6 @@ import { canvas, ctx } from 'canvas';
 import Store from 'store';
 import Character from 'components/character';
 import Tear from 'components/tear';
-import repeat from 'utils/string/repeat';
 import isColliding from 'utils/physics/is-colliding';
 import {
     LIMIT_TOP_ISAAC,
@@ -16,7 +15,8 @@ import {
     KEY_W,
     KEY_S,
     KEY_A,
-    KEY_D
+    KEY_D,
+    KEY_SPACE,
 } from '../constants';
 import { isaac } from 'images/characters';
 
@@ -60,22 +60,23 @@ export default class Isaac extends Character
         {
             const oldX = this._x;
             this._x = value;
-            const collider = isColliding( this, Store.get( 'monsters' ) );
+            const enemy = isColliding( this, Store.get( 'monsters' ) );
 
-            if ( !collider && !isColliding( this, Store.get( 'obstacles' ) ) )
+            if ( !enemy && !isColliding( this, Store.get( 'obstacles' ) ) )
             {
                 this._x = value;
-            }
-            else
-            {
-                this._x = oldX;
+                this.pickupItems();
 
-                const now = Date.now();
-                if ( collider && now - this._lastDmg > this._dmgInterval )
-                {
-                    this.hp -= collider.damages || 1;
-                    this._lastDmg = now;
-                }
+                return;
+            }
+
+            this._x = oldX;
+
+            const now = Date.now();
+            if ( enemy && now - this._lastDmg > this._dmgInterval )
+            {
+                this.hp -= enemy.damages || 1;
+                this._lastDmg = now;
             }
         }
     }
@@ -93,24 +94,45 @@ export default class Isaac extends Character
             const oldY = this._y;
             this._y = value;
 
-            const collider = isColliding( this, Store.get( 'monsters' ) );
+            const enemy = isColliding( this, Store.get( 'monsters' ) );
 
-            if ( !collider && !isColliding( this, Store.get( 'obstacles' ) ) )
+            if ( !enemy && !isColliding( this, Store.get( 'obstacles' ) ) )
             {
                 this._y = value;
-            }
-            else
-            {
-                const now = Date.now();
-                this._y = oldY;
+                this.pickupItems();
 
-                if ( collider && now - this._lastDmg > this._dmgInterval )
-                {
-                    this.hp -= collider.damages || 1;
-                    this._lastDmg = now;
-                }
+                return;
+            }
+
+            const now = Date.now();
+            this._y = oldY;
+
+            if ( enemy && now - this._lastDmg > this._dmgInterval )
+            {
+                this.hp -= enemy.damages || 1;
+                this._lastDmg = now;
             }
         }
+    }
+
+
+    pickupItems()
+    {
+        const items = Store.get( 'items' );
+        const playerItems = Store.get( 'playerItems' );
+        const collectible = isColliding( this, items );
+
+        if ( !collectible )
+        {
+            return;
+        }
+
+        items.remove( collectible );
+        const item = collectible.toItem();
+        const existingItem = playerItems.get( item.type ) || { quantity: 0, };
+
+        existingItem.quantity += item.quantity || 0;
+        playerItems.set( item.type, existingItem );
     }
 
     update( time, now )
@@ -217,6 +239,14 @@ export default class Isaac extends Character
         {
             this._lastShoot = now;
             this.shoot();
+        }
+
+        if ( keysDown.has( KEY_SPACE ) &&
+            ( !this._lastBomb || 500 <= now - this._lastBomb ) )
+        {
+            this._lastBomb = now;
+            console.log( 'droppin the bomb!' );
+            // this.dropBomb();
         }
     }
 
@@ -328,12 +358,5 @@ export default class Isaac extends Character
 
         this.update( delta / 1000, now );
         super.render();
-
-        ctx.fillStyle = 'rgb(250, 50, 50)';
-        ctx.font = '20px Helvetica';
-        ctx.textAlign = 'left';
-        ctx.textBaseline = 'top';
-        ctx.fillText( repeat( '❤ ', this.hp ), 35, 13 );
-
     }
 }

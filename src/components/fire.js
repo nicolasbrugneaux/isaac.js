@@ -16,7 +16,7 @@ export default class Fire extends DestructibleStaticActor
         this._states = fire.states;
         this._interval = 100; // ms
         this._then = Date.now();
-        this.damages = 1;
+        this.damages = 0.5;
     }
 
     renderSprite()
