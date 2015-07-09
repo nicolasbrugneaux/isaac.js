@@ -49,11 +49,11 @@ export default class HUD
 
             let _hp = 0;
 
-            while ( _hp < hp + 1 )
+            while ( _hp < hp )
             {
                 let [ spriteX, spriteY ] = hearts.default.position;
 
-                if ( _hp === hp + 0.5 )
+                if ( _hp + 0.5 === hp )
                 {
                     [ spriteX, spriteY ] = hearts.halfdefault.position;
                     ctx.drawImage( this._images.hearts.image, spriteX, spriteY, hearts.width, hearts.height, x, y, width, height );
