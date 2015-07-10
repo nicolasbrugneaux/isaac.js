@@ -2,7 +2,7 @@ import { canvas, ctx } from 'canvas';
 import Store from 'store';
 import Character from 'components/character';
 import Tear from 'components/tear';
-import isColliding from 'utils/physics/is-colliding';
+import { isColliding } from 'utils/physics/collisions';
 import {
     LIMIT_TOP_ISAAC,
     LIMIT_BOTTOM_ISAAC,
@@ -129,10 +129,20 @@ export default class Isaac extends Character
 
         items.remove( collectible );
         const item = collectible.toItem();
-        const existingItem = playerItems.get( item.type ) || { quantity: 0, };
 
-        existingItem.quantity += item.quantity || 0;
-        playerItems.set( item.type, existingItem );
+        for ( let i = 0; i < item.quantity; i++ )
+        {
+            const existingItem = playerItems.get( item.type ) || { quantity: 0, items: [], };
+
+            existingItem.quantity += 1;
+
+            if ( item.isDroppable )
+            {
+                existingItem.items.push( collectible.toDroppable() );
+            }
+
+            playerItems.set( item.type, existingItem );
+        }
     }
 
     update( time, now )
@@ -264,13 +274,20 @@ export default class Isaac extends Character
 
     dropBomb()
     {
-        console.log( 'droppin\' the bomb!' );
         const playerItems = Store.get( 'playerItems' );
         const existingItem = playerItems.get( 'bomb' );
 
         if ( existingItem.quantity )
         {
+            const x = this.x;
+            const y = this.y;
+            const [Bomb, ...bombs] = existingItem.items;
+            existingItem.items = bombs;
             existingItem.quantity -= 1;
+
+            const bomb = new Bomb( { x, y, } );
+            bomb.drop();
+
             playerItems.set( 'bomb', existingItem );
         }
     }

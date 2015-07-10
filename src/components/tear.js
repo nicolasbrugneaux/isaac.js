@@ -7,7 +7,7 @@ import {
 } from '../constants';
 import { defaultTear } from 'images/tears';
 import { foreground } from 'layers';
-import isColliding from 'utils/physics/is-colliding';
+import { isColliding } from 'utils/physics/collisions';
 
 export default class Tear extends DynamicActor
 {

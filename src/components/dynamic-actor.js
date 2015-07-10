@@ -2,9 +2,9 @@ import Actor from 'components/actor';
 
 export default class DynamicActor extends Actor
 {
-    constructor( { width, height, image, speed } )
+    constructor( { x, y, width, height, image, speed } )
     {
-        super( { width, height, image, } );
+        super( { x, y, width, height, image, } );
 
         this._speed = speed || 256;
     }

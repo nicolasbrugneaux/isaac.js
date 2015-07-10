@@ -2,13 +2,13 @@ import { ctx } from '../canvas';
 
 export default class Actor
 {
-    constructor( { width, height, image } )
+    constructor( { x=null, y=null, width, height, image } )
     {
         this.width = width;
         this.height = height;
         this.image = image || null;
-        this._x = null;
-        this._y = null;
+        this._x = x;
+        this._y = y;
 
         if ( this.image )
         {
@@ -73,8 +73,8 @@ export default class Actor
     {
         const x = Math.round( this._x );
         const y = Math.round( this._y );
-        // ctx.fillStyle = 'red';
-        // ctx.fillRect( this._x, this._y, this.width, this.height );
+        ctx.fillStyle = 'red';
+        ctx.fillRect( this._x, this._y, this.width, this.height );
 
         if ( this.image && this.ready )
         {

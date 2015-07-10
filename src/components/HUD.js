@@ -1,7 +1,6 @@
 import { ctx } from 'canvas';
 import Store from 'store';
 import { hearts, bombs } from 'images/HUD';
-import repeat from 'utils/string/repeat';
 
 export default class HUD
 {
