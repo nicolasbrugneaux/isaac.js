@@ -29,17 +29,14 @@ class BombActor extends DynamicActor
 
     renderExplosion()
     {
-        this.active = false;
+        setTimeout( () => this.active = false, 1000 ); // 4 seconds after
         this.width = 50;
         this.height = 50;
     }
 
     renderSprite()
     {
-        const bombName = 1 === this.quantity ? 'default' : 'double';
-        const [ x, y ] = bombs[bombName].position || [0, 0, ];
-
-        // console.log( this.x, this.y );
+        const [ x, y ] = bombs.default.position;
 
         ctx.drawImage( this._image, x, y, this.width, this.height, this._x, this._y, this.width, this.height );
     }

@@ -24,7 +24,6 @@ export default class Tear extends DynamicActor
 
         this.xVelocity = direction.x * this._speed;
         this.yVelocity = direction.y * this._speed;
-
     }
 
     get inBounds()

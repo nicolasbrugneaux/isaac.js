@@ -73,8 +73,8 @@ export default class Actor
     {
         const x = Math.round( this._x );
         const y = Math.round( this._y );
-        ctx.fillStyle = 'red';
-        ctx.fillRect( this._x, this._y, this.width, this.height );
+        // ctx.fillStyle = 'red';
+        // ctx.fillRect( this._x, this._y, this.width, this.height );
 
         if ( this.image && this.ready )
         {

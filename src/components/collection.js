@@ -1,3 +1,5 @@
+import Store from 'store';
+
 export default class Collection extends Array
 {
     constructor( { collection=[], shouldUpdateBeforeRender=false, shouldUpdateAfterRender=false } )
@@ -43,6 +45,12 @@ export default class Collection extends Array
                 if ( item.renderDestroy )
                 {
                     item.renderDestroy();
+                }
+
+                const layer = item.inactiveLayer;
+                if ( layer )
+                {
+                    Store.get( layer ).push( item );
                 }
             }
             else

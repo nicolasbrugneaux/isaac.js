@@ -277,7 +277,7 @@ export default class Isaac extends Character
         const playerItems = Store.get( 'playerItems' );
         const existingItem = playerItems.get( 'bomb' );
 
-        if ( existingItem.quantity )
+        if ( existingItem && existingItem.quantity )
         {
             const x = this.x;
             const y = this.y;

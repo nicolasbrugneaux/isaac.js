@@ -9,6 +9,7 @@ import Isaac from 'components/isaac';
 
 Store.set( 'room', new Room() );
 Store.set( 'HUD', new HUD() );
+Store.set( 'backgroundObstacles', new Collection( { collection: [], } ) );
 
 Store.set( 'tears', new Collection( { shouldUpdateBeforeRender: true, } ) );
 
@@ -40,6 +41,7 @@ Store.set( 'playerItems', new Map() );
 export const background = new Collection( { collection:
 [
     Store.get( 'room' ),
+    Store.get( 'backgroundObstacles' ),
     Store.get( 'HUD' ),
 ], } );
 

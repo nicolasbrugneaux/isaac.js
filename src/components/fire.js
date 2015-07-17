@@ -1,6 +1,6 @@
 import DestructibleStaticActor from 'components/destructible-static-actor';
 import { ctx } from 'canvas';
-import { fire } from 'images/obstacles';
+import { fire, fireBase } from 'images/obstacles';
 
 export default class Fire extends DestructibleStaticActor
 {
@@ -19,14 +19,22 @@ export default class Fire extends DestructibleStaticActor
         this.damages = 0.5;
     }
 
+    get inactiveLayer()
+    {
+        return 'backgroundObstacles';
+    }
+
     renderSprite()
     {
-        if ( 0 === this.hp )
+        let [ woodX, woodY ] = this.active ? fireBase.position : fireBase.deadPosition;
+        ctx.drawImage( this._image, woodX, woodY, this.width, this.height, this._x, this._y + 17, this.width, this.height );
+
+        if ( !this.active )
         {
-            this.setImage( fire.sprite );
-            super.render();
+            this.damages = 0;
             return;
         }
+
         const now = Date.now();
         if ( now - this._then > this._interval )
         {
