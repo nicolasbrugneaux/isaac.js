@@ -4,6 +4,7 @@ var source = require( 'vinyl-source-stream' );
 var watchify = require( 'watchify' );
 var browserify = require( 'browserify' );
 var babelify = require( 'babelify' );
+var webserver = require( 'gulp-webserver' );
 var assign = require( 'object-assign' );
 
 
@@ -16,6 +17,7 @@ bundler.transform( babelify.configure(
 } ) );
 
 gulp.task( 'js', bundle ); // so you can run `gulp js` to build the file
+gulp.task( 'serve', serve );
 bundler.on( 'update', bundle ); // on any dep update, runs the bundler
 bundler.on( 'log', gutil.log ); // output build logs to terminal
 
@@ -27,4 +29,15 @@ function bundle()
         .pipe( source( 'bundle.js' ) )
         //
         .pipe( gulp.dest( './build/js/' ) );
+}
+
+function serve()
+{
+    gulp.src( '.' )
+        .pipe( webserver(
+        {
+            livereload: true,
+            open: true,
+            fallback: 'index.html'
+        } ) );
 }

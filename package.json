@@ -12,11 +12,12 @@
     "url": "https://nicolasbrugneaux/isaac.js"
   },
   "devDependencies": {
-    "babelify": "^6.1.2",
-    "browserify": "^10.2.4",
+    "babelify": "^6.1.3",
+    "browserify": "^11.0.0",
     "gulp": "^3.9.0",
     "gulp-util": "^3.0.6",
-    "object-assign": "^2.0.0",
+    "gulp-webserver": "^0.9.1",
+    "object-assign": "^3.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.2.3"
   },
@@ -26,5 +27,8 @@
     "js"
   ],
   "author": "Nicolas Brugneaux <nicolas.brugneaux@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "babel-runtime": "^5.7.0"
+  }
 }
