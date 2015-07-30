@@ -6,9 +6,11 @@ import Rock from 'components/rock';
 import Fire from 'components/fire';
 import Bomb from 'components/bomb';
 import Isaac from 'components/isaac';
+import VolumeController from 'volume-controller';
 
 Store.set( 'room', new Room() );
 Store.set( 'HUD', new HUD() );
+Store.set( 'sounds', new VolumeController() );
 Store.set( 'backgroundObstacles', new Collection( { collection: [], } ) );
 
 Store.set( 'tears', new Collection( { shouldUpdateBeforeRender: true, } ) );

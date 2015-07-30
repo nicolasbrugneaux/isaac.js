@@ -13,6 +13,11 @@
     <canvas id="app" width="800" height="480">
         You need a proper browser meatbag.
     </canvas>
+    <div class="volume">
+        <span>Volume: </span>
+        <input id="js-volume" type="range" min="0" max="100" />
+        <span id="js-volume--display"></span>
+    </div>
     <br>
     <p>This was made because the original game is amazing and I wanted to give them back all the honor, I don't own any pictures and/or want to gain any benefit from that, <a href="http://store.steampowered.com/app/250900/">buy the original awesome game on steam</a>. &lt;3</p>
     <script src="build/js/bundle.js"></script>
@@ -40,7 +45,7 @@
 
     };
 
-    requestAnimationFrame( update );
+    update();
     </script>
 </body>
 </html>

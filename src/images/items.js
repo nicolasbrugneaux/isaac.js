@@ -11,6 +11,13 @@ export const bombs =
     {
         position: [32, 0, ],
     },
+    explosion:
+    {
+        sprite: 'build/img/explosion_sprite.png',
+        width: 96,
+        height: 96,
+        states: 12
+    }
 };
 
 export default

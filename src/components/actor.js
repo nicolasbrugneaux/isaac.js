@@ -32,11 +32,15 @@ export default class Actor
         }
         else if ( image !== this.image )
         {
-            this.image = image;
+            this.image =
+            {
+                type,
+                src: image,
+            };
             this.ready = false;
             this._image = new Image();
             this._image.onload = () => this.ready = true;
-            this._image.src = this.image;
+            this._image.src = this.image.src;
         }
     }
 
