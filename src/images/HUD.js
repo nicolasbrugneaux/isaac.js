@@ -43,17 +43,71 @@ export const hearts =
 
 export const bombs =
 {
-    sprite: 'build/img/bombs_sprite.png',
-    width: 32,
-    height: 32,
+    sprite: 'build/img/hud.png',
+    width: 16,
+    height: 16,
+    default:
+    {
+        position: [0, 16, ],
+    },
+};
+
+export const keys =
+{
+    sprite: 'build/img/hud.png',
+    width: 16,
+    height: 16,
+    default:
+    {
+        position: [16, 0, ],
+    },
+    golden:
+    {
+        position: [16, 16, ],
+    },
+};
+
+
+export const coins =
+{
+    sprite: 'build/img/hud.png',
+    width: 16,
+    height: 16,
     default:
     {
         position: [0, 0, ],
     },
 };
 
+export const hardMode =
+{
+    sprite: 'build/img/hud.png',
+    width: 16,
+    height: 16,
+    default:
+    {
+        position: [32, 0, ],
+    },
+};
+
+export const noAchievement =
+{
+    sprite: 'build/img/hud.png',
+    width: 16,
+    height: 16,
+    default:
+    {
+        position: [32, 16, ],
+    },
+};
+
+
 export default
 {
     hearts,
     bombs,
+    keys,
+    coins,
+    hardMode,
+    noAchievement,
 };

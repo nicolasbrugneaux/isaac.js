@@ -31,9 +31,9 @@ export default class Character extends DynamicActor
     {
         if ( 0 < value )
         {
-            this._hp = value;
+            this._hp = value <= ( this.maxHp || 16 ) ? value : this.maxHp || 16;
         }
-        else
+        else if ( 0 >= value )
         {
             this._hp = this._originalHp;
             if ( this.respawn )

@@ -1,6 +1,6 @@
 import { ctx } from 'canvas';
 import Store from 'store';
-import { hearts, bombs } from 'images/HUD';
+import { hearts, bombs, keys, coins, hardMode, noAchievement } from 'images/HUD';
 
 export default class HUD
 {
@@ -13,11 +13,16 @@ export default class HUD
         {
             hearts,
             bombs,
+            keys,
+            coins,
+            hardMode,
+            noAchievement,
         };
+
         Object.keys( elements ).forEach( prop =>
         {
-            const element = elements[prop];
-            this.images[prop] = element.sprite;
+            const { sprite } = elements[prop];
+            this.images[prop] = sprite;
 
             const image =
             {
@@ -27,7 +32,7 @@ export default class HUD
             this._images[prop] = image;
 
             image.image.onload = () => image.ready = true;
-            image.image.src = element.sprite;
+            image.image.src = sprite;
         } );
     }
 
@@ -73,12 +78,36 @@ export default class HUD
             }
         }
 
+        let initialY = 40;
+
+        if ( this._images.coins.ready )
+        {
+            initialY += 20;
+
+            const width = coins.width;
+            const height = coins.height;
+            const initialX = 8;
+            const playerCoins = Store.get( 'playerItems' ).get( 'coin' );
+            const count = playerCoins ? playerCoins.quantity : 0;
+
+            let [ spriteX, spriteY ] = coins.default.position;
+            ctx.drawImage( this._images.coins.image, spriteX, spriteY, coins.width, coins.height, initialX, initialY, width, height );
+
+            ctx.fillStyle = 0 === count ? 'rgb(175, 175, 175)' : 'rgb(225, 225, 225)';
+            ctx.font = '14px monospace';
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'top';
+            ctx.fillText( `${count}`, initialX + width + 3, initialY );
+        }
+
         if ( this._images.bombs.ready )
         {
+
+            initialY += 20;
+
             const width = bombs.width;
             const height = bombs.height;
-            const initialX = 5;
-            const initialY = 55;
+            const initialX = 8;
             const playerBombs = Store.get( 'playerItems' ).get( 'bomb' );
             const count = playerBombs ? playerBombs.quantity : 0;
 
@@ -86,10 +115,55 @@ export default class HUD
             ctx.drawImage( this._images.bombs.image, spriteX, spriteY, bombs.width, bombs.height, initialX, initialY, width, height );
 
             ctx.fillStyle = 0 === count ? 'rgb(175, 175, 175)' : 'rgb(225, 225, 225)';
-            ctx.font = '15px Helvetica';
+            ctx.font = '14px monospace';
             ctx.textAlign = 'left';
             ctx.textBaseline = 'top';
-            ctx.fillText( `x ${count}`, initialX + width, initialY + 6 );
+            ctx.fillText( `${count}`, initialX + width + 3, initialY );
+        }
+
+        if ( this._images.keys.ready )
+        {
+
+            initialY += 20;
+
+            const width = keys.width;
+            const height = keys.height;
+            const initialX = 8;
+            const playerKeys = Store.get( 'playerItems' ).get( 'key' );
+            const count = playerKeys ? playerKeys.quantity : 0;
+
+            let [ spriteX, spriteY ] = keys.default.position;
+            ctx.drawImage( this._images.keys.image, spriteX, spriteY, keys.width, keys.height, initialX, initialY, width, height );
+
+            ctx.fillStyle = 0 === count ? 'rgb(175, 175, 175)' : 'rgb(225, 225, 225)';
+            ctx.font = '14px monospace';
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'top';
+            ctx.fillText( `${count}`, initialX + width + 3, initialY );
+        }
+
+        if ( Store.get( 'hardMode' ) && this._images.hardMode.ready )
+        {
+            initialY += 20;
+
+            const width = hardMode.width;
+            const height = hardMode.height;
+            const initialX = 8;
+
+            let [ spriteX, spriteY ] = hardMode.default.position;
+            ctx.drawImage( this._images.hardMode.image, spriteX, spriteY, hardMode.width, hardMode.height, initialX, initialY, width, height );
+        }
+
+        if ( Store.get( 'noAchievement' ) && this._images.noAchievement.ready )
+        {
+            initialY += 20;
+
+            const width = noAchievement.width;
+            const height = noAchievement.height;
+            const initialX = 8;
+
+            let [ spriteX, spriteY ] = noAchievement.default.position;
+            ctx.drawImage( this._images.noAchievement.image, spriteX, spriteY, noAchievement.width, noAchievement.height, initialX, initialY, width, height );
         }
     }
 }

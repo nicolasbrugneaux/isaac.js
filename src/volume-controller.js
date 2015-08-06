@@ -1,9 +1,9 @@
 import { volumeSlider, volumeDisplay } from 'volume-elements';
 
-const text = typeof volumeDisplay.innerText === 'undefined' ? 'textContent' : 'innerText';
+const text = 'undefined' === typeof volumeDisplay.innerText ? 'textContent' : 'innerText';
 export default class VolumeController
 {
-    constructor(volume=50, muted=false)
+    constructor( volume=50, muted=false )
     {
         this.volume = volume;
         this.muted = muted;
@@ -33,7 +33,7 @@ export default class VolumeController
 
     set volume( value )
     {
-        if ( 0 <= value && value <= 100 )
+        if ( 0 <= value && 100 >= value )
         {
             this._volume = value;
         }

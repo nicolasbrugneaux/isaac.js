@@ -16,8 +16,16 @@ export const bombs =
         sprite: 'build/img/explosion_sprite.png',
         width: 96,
         height: 96,
-        states: 12
-    }
+        states: 12,
+    },
+};
+
+export const coins =
+{
+    sprite: 'build/img/coins_sprite.png',
+    width: 20,
+    height: 15,
+    states: 6,
 };
 
 export default

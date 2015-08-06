@@ -5,11 +5,14 @@ import HUD from 'components/HUD';
 import Rock from 'components/rock';
 import Fire from 'components/fire';
 import Bomb from 'components/bomb';
+import Coin from 'components/coin';
 import Isaac from 'components/isaac';
 import VolumeController from 'volume-controller';
 
 Store.set( 'room', new Room() );
 Store.set( 'HUD', new HUD() );
+Store.set( 'noAchievement', true );
+Store.set( 'hardMode', false );
 Store.set( 'sounds', new VolumeController() );
 Store.set( 'backgroundObstacles', new Collection( { collection: [], } ) );
 
@@ -29,11 +32,18 @@ Store.set( 'obstacles', new Collection( { collection:
 Store.set( 'items', new Collection( { collection:
 [
     new Bomb( { x: 82, y: 356, } ),
+    new Coin( { x: 140, y: 375, } ),
+    new Coin( { x: 160, y: 375, } ),
+    new Coin( { x: 180, y: 375, } ),
+    new Coin( { x: 200, y: 375, } ),
+    new Coin( { x: 680, y: 80, } ),
+    new Coin( { x: 680, y: 65, } ),
 ], } ) );
 
 Store.set( 'monsters', new Collection( { collection:
 [
     new Fire( { x: 703, y: 65, } ),
+    new Fire( { x: 650, y: 65, } ),
 ], shouldUpdateBeforeRender: true, } ) );
 
 Store.set( 'player', new Isaac() );

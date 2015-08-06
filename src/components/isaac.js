@@ -39,6 +39,7 @@ export default class Isaac extends Character
         this._direction = { x: 0, y: 1, };
         this.collidingWidth = this.width - 2;
         this.collidingHeight = this.height - 10;
+        this.maxHp = 16;
         document.addEventListener( 'keydown', ( e ) => this._keysDown.add( e.keyCode ) );
         document.addEventListener( 'keyup', ( e ) => this._keysDown.delete( e.keyCode ) );
 

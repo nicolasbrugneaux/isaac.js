@@ -52,7 +52,7 @@ class BombActor extends DynamicActor
             [x, y] = [this._state * this.width, 0, ];
             [_x, _y] = [this._x - bombs.width, this._y - bombs.height * 2, ];
 
-            if ( now - this._then  > this._interval )
+            if ( now - this._then > this._interval )
             {
                 this._state += 1;
                 this._then = now;

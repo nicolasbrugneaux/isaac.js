@@ -12,7 +12,7 @@ export default class Fire extends DestructibleStaticActor
             src: fire.sprite,
         }, } );
 
-        this._state = 0;
+        this._state = Math.round( ( Math.random() * fire.states ) );
         this._states = fire.states;
         this._interval = 100; // ms
         this._then = Date.now();
