@@ -4,6 +4,7 @@ import Room from 'components/room';
 import HUD from 'components/HUD';
 import Rock from 'components/rock';
 import Fire from 'components/fire';
+import Fly from 'components/fly';
 import Bomb from 'components/bomb';
 import Coin from 'components/coin';
 import Isaac from 'components/isaac';
@@ -44,6 +45,11 @@ Store.set( 'monsters', new Collection( { collection:
 [
     new Fire( { x: 703, y: 65, } ),
     new Fire( { x: 650, y: 65, } ),
+    new Fly( { x: 250, y: 65, } ),
+    new Fly( { x: 300, y: 65, name: 'homing', } ),
+    new Fly( { x: 330, y: 65, name: 'homing', } ),
+    new Fly( { x: 350, y: 65, name: 'homing', } ),
+    new Fly( { x: 360, y: 65, name: 'homing', } ),
 ], shouldUpdateBeforeRender: true, } ) );
 
 Store.set( 'player', new Isaac() );

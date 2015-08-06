@@ -2,9 +2,9 @@ import DynamicActor from 'components/dynamic-actor';
 
 export default class Character extends DynamicActor
 {
-    constructor( { width, height, image, speed, name, hp } )
+    constructor( { width, height, image, speed, name, hp, x, y } )
     {
-        super( { width, height, image, } );
+        super( { width, height, image, x, y, } );
 
         this._speed = speed;
         this._hp = hp;
@@ -35,9 +35,16 @@ export default class Character extends DynamicActor
         }
         else if ( 0 >= value )
         {
-            this._hp = this._originalHp;
+            this._hp = 0;
+
+            if ( this.die )
+            {
+                this.die();
+            }
+
             if ( this.respawn )
             {
+                this._hp = this._originalHp;
                 this.respawn();
             }
         }
