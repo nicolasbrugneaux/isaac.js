@@ -159,7 +159,8 @@ export default class Isaac extends Character
 
         if ( 0 === keysDown.size )
         {
-            return false;
+            this._direction = direction;
+            return direction;
         }
 
         if ( keysDown.has( KEY_W ) &&
