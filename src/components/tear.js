@@ -8,6 +8,7 @@ import {
 import { defaultTear } from 'images/tears';
 import { foreground } from 'layers';
 import { isColliding } from 'utils/physics/collisions';
+import Store from 'store';
 
 export default class Tear extends DynamicActor
 {
@@ -34,7 +35,11 @@ export default class Tear extends DynamicActor
             return false;
         }
 
-        const collider = isColliding( this, foreground.filter( item => item !== this._creator ) );
+        const items = Store.get( 'items' );
+        const collider = isColliding( this, foreground.filter( item =>
+        {
+            return item !== this._creator && item !== items;
+        } ) );
         if ( collider )
         {
             if ( 'number' === typeof collider.hp )
