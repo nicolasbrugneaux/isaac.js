@@ -49,6 +49,19 @@ export default class Isaac extends Character
         this.respawn();
     }
 
+    canTakeDamage( { update } )
+    {
+        const now = Date.now();
+        const canTakeDamage = now - this._lastDmg > this._dmgInterval;
+
+        if ( update && canTakeDamage )
+        {
+            this._lastDmg = now;
+        }
+
+        return canTakeDamage;
+    }
+
     get x()
     {
         return this._x;
@@ -73,11 +86,9 @@ export default class Isaac extends Character
 
             this._x = oldX;
 
-            const now = Date.now();
-            if ( enemy && now - this._lastDmg > this._dmgInterval )
+            if ( enemy && this.canTakeDamage( { update: true, } ) )
             {
                 this.hp -= enemy.damages || 1;
-                this._lastDmg = now;
             }
         }
     }
@@ -105,13 +116,11 @@ export default class Isaac extends Character
                 return;
             }
 
-            const now = Date.now();
             this._y = oldY;
 
-            if ( enemy && now - this._lastDmg > this._dmgInterval )
+            if ( enemy && this.canTakeDamage( { update: true, } ) )
             {
                 this.hp -= enemy.damages || 1;
-                this._lastDmg = now;
             }
         }
     }

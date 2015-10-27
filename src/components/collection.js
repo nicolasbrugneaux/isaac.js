@@ -59,13 +59,15 @@ export default class Collection extends Array
             }
         }
 
-        if ( newThis.length !== len )
-        {
-            this.splice( len - 1 );
+        const newLength = newThis.length;
 
-            for ( let j = 0, lenj = newThis.length; j < lenj; j++ )
+        if ( newLength !== len )
+        {
+            this.length = newLength;
+
+            for ( let i = 0; i < newLength; i++ )
             {
-                this[j] = newThis[j];
+                this[i] = newThis[i];
             }
         }
     }
@@ -77,10 +79,7 @@ export default class Collection extends Array
             this.update();
         }
 
-        for ( let i = 0, len = this.length; i < len; i++ )
-        {
-            this[i].render();
-        }
+        this.forEach( item => item.render() );
 
         if ( this._shouldUpdateAfterRender && !this.isEmpty )
         {

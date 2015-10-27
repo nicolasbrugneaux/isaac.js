@@ -20,7 +20,6 @@ export default class Fly extends Character
         this._states = flies[this._name].states;
         this._interval = 50; // ms
         this._then = Date.now();
-        this.lastDmg = Date.now();
         this._dmgInterval = 500;
         this.damages = 0.5;
         this.type = 'fly';
@@ -52,11 +51,10 @@ export default class Fly extends Character
                 const noFlies = foreground
                     .map( item =>
                     {
-                        if ( item.length )
+                        if ( item === Store.get( 'monsters' ) )
                         {
-                            return item.filter( _item => !_item instanceof Fly );
+                            return item.filter( i => !( i instanceof Fly ) );
                         }
-
                         return item;
                     } )
                     .filter( item =>
@@ -70,10 +68,9 @@ export default class Fly extends Character
                     this.x -= speedX;
                     this.y -= speedY;
 
-                    const now = Date.now();
-                    if ( now - this.lastDmg > this._dmgInterval && 'number' === typeof collider.hp )
+                    if ( collider.canTakeDamage &&
+                        collider.canTakeDamage( { update: true, } ) )
                     {
-                        this.lastDmg = now;
                         collider.hp -= this.damages;
                     }
                 }
@@ -86,10 +83,14 @@ export default class Fly extends Character
     {
         this._name = 'dying';
         this._state = 0;
+        this.damages = 0;
         this._states = flies[this._name].states;
         this.width = flies[this._name].width;
         this.height = flies[this._name].height;
         this._interval = 75;
+
+        Store.set( 'monsters', Store.get( 'monsters' )
+            .filter( monster => this !== monster ) );
     }
 
     renderSprite()
