@@ -87,8 +87,10 @@ export default class Fly extends Character
         this.height = flies[this._name].height;
         this._interval = 75;
 
-        Store.set('monsters', Store.get('monsters')
-            .filter(monster => this !== monster));
+        this.active = false;
+
+        // Store.set('monsters', Store.get('monsters')
+        //     .filter(monster => this !== monster));
     }
 
     renderSprite()
