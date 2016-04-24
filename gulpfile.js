@@ -11,10 +11,7 @@ var assign = require( 'object-assign' );
 var bundler = watchify( browserify( './src/app.js',
     assign( watchify.args, { debug: true, paths: ['./src/'] } ) ) ); //add inline sourcemap
 // add any other browserify options or transforms here
-bundler.transform( babelify.configure(
-{
-    stage: 0
-} ) );
+bundler.transform( babelify );
 
 gulp.task( 'js', bundle ); // so you can run `gulp js` to build the file
 gulp.task( 'serve', serve );

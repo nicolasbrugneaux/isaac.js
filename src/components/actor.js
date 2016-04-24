@@ -2,7 +2,7 @@ import { ctx } from '../canvas';
 
 export default class Actor
 {
-    constructor( { x=null, y=null, width, height, image } )
+    constructor({ x=null, y=null, width, height, image })
     {
         this.width = width;
         this.height = height;
@@ -10,11 +10,11 @@ export default class Actor
         this._x = x;
         this._y = y;
 
-        if ( this.image )
+        if (this.image)
         {
             this.ready = false;
             this._image = new Image();
-            this._image.onload = () => this.ready = true;
+            this._image.onload = () => { this.ready = true; };
             this._image.src = this.image.src;
         }
         else
@@ -23,14 +23,14 @@ export default class Actor
         }
     }
 
-    setImage( image, type='image' )
+    setImage(image, type='image')
     {
-        if ( 'canvas' === type )
+        if ('canvas' === type)
         {
             this.image = true;
             this._image = image;
         }
-        else if ( image !== this.image )
+        else if (image !== this.image)
         {
             this.image =
             {
@@ -39,7 +39,7 @@ export default class Actor
             };
             this.ready = false;
             this._image = new Image();
-            this._image.onload = () => this.ready = true;
+            this._image.onload = () => { this.ready = true; };
             this._image.src = this.image.src;
         }
     }
@@ -49,7 +49,7 @@ export default class Actor
         return this._x;
     }
 
-    set x( value )
+    set x(value)
     {
         this._x = value;
     }
@@ -59,7 +59,7 @@ export default class Actor
         return this._y;
     }
 
-    set y( value )
+    set y(value)
     {
         this._y = value;
     }
@@ -75,18 +75,16 @@ export default class Actor
 
     render()
     {
-        const x = Math.round( this._x );
-        const y = Math.round( this._y );
-        // ctx.fillStyle = 'red';
-        // ctx.fillRect( this._x, this._y, this.width, this.height );
+        const x = Math.round(this._x);
+        const y = Math.round(this._y);
 
-        if ( this.image && this.ready )
+        if (this.image && this.ready)
         {
-            if ( 'image' === this.image.type )
+            if ('image' === this.image.type)
             {
-                ctx.drawImage( this._image, x, y );
+                ctx.drawImage(this._image, x, y);
             }
-            else if ( 'sprite' === this.image.type && this.renderSprite )
+            else if ('sprite' === this.image.type && this.renderSprite)
             {
                 this.renderSprite();
             }

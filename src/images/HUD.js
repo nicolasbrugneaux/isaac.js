@@ -5,39 +5,39 @@ export const hearts =
     height: 16,
     empty:
     {
-        position: [32, 0, ],
+        position: [ 32, 0, ],
     },
     default:
     {
-        position: [0, 0, ],
+        position: [ 0, 0, ],
     },
     halfdefault:
     {
-        position: [16, 0, ],
+        position: [ 16, 0, ],
     },
     spirit:
     {
-        position: [0, 16, ],
+        position: [ 0, 16, ],
     },
     halfspirit:
     {
-        position: [16, 16, ],
+        position: [ 16, 16, ],
     },
     evil:
     {
-        position: [32, 16, ],
+        position: [ 32, 16, ],
     },
     halfevil:
     {
-        position: [48, 16, ],
+        position: [ 48, 16, ],
     },
     reinforced:
     {
-        position: [48, 0, ],
+        position: [ 48, 0, ],
     },
     halfreinforced:
     {
-        position: [64, 0, ],
+        position: [ 64, 0, ],
     },
 };
 
@@ -48,7 +48,7 @@ export const bombs =
     height: 16,
     default:
     {
-        position: [0, 16, ],
+        position: [ 0, 16, ],
     },
 };
 
@@ -59,11 +59,11 @@ export const keys =
     height: 16,
     default:
     {
-        position: [16, 0, ],
+        position: [ 16, 0, ],
     },
     golden:
     {
-        position: [16, 16, ],
+        position: [ 16, 16, ],
     },
 };
 
@@ -75,7 +75,7 @@ export const coins =
     height: 16,
     default:
     {
-        position: [0, 0, ],
+        position: [ 0, 0, ],
     },
 };
 
@@ -86,7 +86,7 @@ export const hardMode =
     height: 16,
     default:
     {
-        position: [32, 0, ],
+        position: [ 32, 0, ],
     },
 };
 
@@ -97,7 +97,7 @@ export const noAchievement =
     height: 16,
     default:
     {
-        position: [32, 16, ],
+        position: [ 32, 16, ],
     },
 };
 

@@ -2,27 +2,26 @@ import Store from 'store';
 
 export default class Collection extends Array
 {
-    constructor( { collection=[], shouldUpdateBeforeRender=false, shouldUpdateAfterRender=false } )
+    constructor({ collection=[], shouldUpdateBeforeRender=false, shouldUpdateAfterRender=false })
     {
         super();
-        this.push( ...collection );
+        this.push(...collection);
 
         this._shouldUpdateBeforeRender = shouldUpdateBeforeRender;
         this._shouldUpdateAfterRender = shouldUpdateAfterRender;
     }
 
-    get isEmpty()
-    {
+    get isEmpty() {
         return 0 === this.length;
     }
 
-    remove( item )
+    remove(item)
     {
-        const index = this.indexOf( item );
+        const index = this.indexOf(item);
 
-        if ( -1 < index )
+        if (-1 < index)
         {
-            this.splice( index, 1 );
+            this.splice(index, 1);
         }
     }
 
@@ -31,41 +30,41 @@ export default class Collection extends Array
         const len = this.length;
         const newThis = [];
 
-        for ( let i = 0; i < len; i++ )
+        for (let i = 0; i < len; i++)
         {
             const item = this[i];
 
-            if ( item.update )
+            if (item.update)
             {
                 item.update();
             }
 
-            if ( false === item.active )
+            if (false === item.active)
             {
-                if ( item.renderDestroy )
+                if (item.renderDestroy)
                 {
                     item.renderDestroy();
                 }
 
                 const layer = item.inactiveLayer;
-                if ( layer )
+                if (layer)
                 {
-                    Store.get( layer ).push( item );
+                    Store.get(layer).push(item);
                 }
             }
             else
             {
-                newThis.push( item );
+                newThis.push(item);
             }
         }
 
         const newLength = newThis.length;
 
-        if ( newLength !== len )
+        if (newLength !== len)
         {
             this.length = newLength;
 
-            for ( let i = 0; i < newLength; i++ )
+            for (let i = 0; i < newLength; i++)
             {
                 this[i] = newThis[i];
             }
@@ -74,14 +73,14 @@ export default class Collection extends Array
 
     render()
     {
-        if ( this._shouldUpdateBeforeRender && !this.isEmpty )
+        if (this._shouldUpdateBeforeRender && !this.isEmpty)
         {
             this.update();
         }
 
-        this.forEach( item => item.render() );
+        this.forEach(item => item.render());
 
-        if ( this._shouldUpdateAfterRender && !this.isEmpty )
+        if (this._shouldUpdateAfterRender && !this.isEmpty)
         {
             this.update();
         }

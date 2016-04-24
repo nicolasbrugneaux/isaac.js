@@ -24,24 +24,24 @@ export default class Isaac extends Character
 {
     constructor()
     {
-        super( { width: 28, height: 35, speed: 200, name: 'Isaac', hp: 3, image:
+        super({ width: 28, height: 35, speed: 200, name: 'Isaac', hp: 3, image:
         {
             type: 'sprite',
             src: isaac.sprite,
-        }, } );
+        }, });
 
         this._then = Date.now();
         this._lastShoot = false;
         this._keysDown = new Set();
-        this._tears = Store.get( 'tears' );
+        this._tears = Store.get('tears');
         this._attackSpeed = 500; // 1 shoot / second
         this.damages = 1;
         this._direction = { x: 0, y: 1, };
         this.collidingWidth = this.width - 2;
         this.collidingHeight = this.height - 10;
         this.maxHp = 16;
-        document.addEventListener( 'keydown', ( e ) => this._keysDown.add( e.keyCode ) );
-        document.addEventListener( 'keyup', ( e ) => this._keysDown.delete( e.keyCode ) );
+        document.addEventListener('keydown', e => this._keysDown.add(e.keyCode));
+        document.addEventListener('keyup', e => this._keysDown.delete(e.keyCode));
 
         this._dmgInterval = 500;
         this._lastDmg = Date.now();
@@ -49,12 +49,12 @@ export default class Isaac extends Character
         this.respawn();
     }
 
-    canTakeDamage( { update } )
+    canTakeDamage({ update })
     {
         const now = Date.now();
         const canTakeDamage = now - this._lastDmg > this._dmgInterval;
 
-        if ( update && canTakeDamage )
+        if (update && canTakeDamage)
         {
             this._lastDmg = now;
         }
@@ -67,16 +67,16 @@ export default class Isaac extends Character
         return this._x;
     }
 
-    set x( value )
+    set x(value)
     {
-        if ( value !== this._x &&
-            LIMIT_LEFT_ISAAC < value && value < LIMIT_RIGHT_ISAAC )
+        if (value !== this._x &&
+            LIMIT_LEFT_ISAAC < value && value < LIMIT_RIGHT_ISAAC)
         {
             const oldX = this._x;
             this._x = value;
-            const enemy = isColliding( this, Store.get( 'monsters' ) );
+            const enemy = isColliding(this, Store.get('monsters'));
 
-            if ( !enemy && !isColliding( this, Store.get( 'obstacles' ) ) )
+            if (!enemy && !isColliding(this, Store.get('obstacles')))
             {
                 this._x = value;
                 this.pickupItems();
@@ -86,7 +86,7 @@ export default class Isaac extends Character
 
             this._x = oldX;
 
-            if ( enemy && this.canTakeDamage( { update: true, } ) )
+            if (enemy && this.canTakeDamage({ update: true, }))
             {
                 this.hp -= enemy.damages || 1;
             }
@@ -98,17 +98,17 @@ export default class Isaac extends Character
         return this._y;
     }
 
-    set y( value )
+    set y(value)
     {
-        if ( value !== this._y &&
-            LIMIT_TOP_ISAAC < value && value < LIMIT_BOTTOM_ISAAC )
+        if (value !== this._y &&
+            LIMIT_TOP_ISAAC < value && value < LIMIT_BOTTOM_ISAAC)
         {
             const oldY = this._y;
             this._y = value;
 
-            const enemy = isColliding( this, Store.get( 'monsters' ) );
+            const enemy = isColliding(this, Store.get('monsters'));
 
-            if ( !enemy && !isColliding( this, Store.get( 'obstacles' ) ) )
+            if (!enemy && !isColliding(this, Store.get('obstacles')))
             {
                 this._y = value;
                 this.pickupItems();
@@ -118,7 +118,7 @@ export default class Isaac extends Character
 
             this._y = oldY;
 
-            if ( enemy && this.canTakeDamage( { update: true, } ) )
+            if (enemy && this.canTakeDamage({ update: true, }))
             {
                 this.hp -= enemy.damages || 1;
             }
@@ -128,110 +128,110 @@ export default class Isaac extends Character
 
     pickupItems()
     {
-        const items = Store.get( 'items' );
-        const playerItems = Store.get( 'playerItems' );
-        const collectible = isColliding( this, items );
+        const items = Store.get('items');
+        const playerItems = Store.get('playerItems');
+        const collectible = isColliding(this, items);
 
-        if ( !collectible )
+        if (!collectible)
         {
             return;
         }
 
-        items.remove( collectible );
+        items.remove(collectible);
         const item = collectible.toItem();
 
-        for ( let i = 0; i < item.quantity; i++ )
+        for (let i = 0; i < item.quantity; i++)
         {
-            const existingItem = playerItems.get( item.type ) || { quantity: 0, items: [], };
+            const existingItem = playerItems.get(item.type) || { quantity: 0, items: [], };
 
             existingItem.quantity += 1;
 
-            if ( item.isDroppable )
+            if (item.isDroppable)
             {
-                existingItem.items.push( collectible.toDroppable() );
+                existingItem.items.push(collectible.toDroppable());
             }
 
-            playerItems.set( item.type, existingItem );
+            playerItems.set(item.type, existingItem);
         }
     }
 
-    update( time, now )
+    update(time, now)
     {
         const deplacement = this.speed * time;
         const keysDown = this._keysDown;
         const direction = { x: 0, y: 1, };
 
-        if ( 0 === deplacement )
+        if (0 === deplacement)
         {
             return false;
         }
 
-        if ( 0 === keysDown.size )
+        if (0 === keysDown.size)
         {
             this._direction = direction;
             return direction;
         }
 
-        if ( keysDown.has( KEY_W ) &&
-            !( keysDown.has( KEY_A ) || keysDown.has( KEY_D ) ) ) // vertical
+        if (keysDown.has(KEY_W) &&
+            !(keysDown.has(KEY_A) || keysDown.has(KEY_D))) // vertical
         {
             this.y -= deplacement;
             direction.y = -1;
         }
-        else if ( keysDown.has( KEY_W ) ) // diagonal
+        else if (keysDown.has(KEY_W)) // diagonal
         {
-            this.y -= Math.sqrt( Math.pow( deplacement, 2 ) / 2 );
+            this.y -= Math.sqrt(Math.pow(deplacement, 2) / 2);
         }
-        else if ( keysDown.has( KEY_S ) &&
-            !( keysDown.has( KEY_A ) || keysDown.has( KEY_D ) ) ) // vertical
+        else if (keysDown.has(KEY_S) &&
+            !(keysDown.has(KEY_A) || keysDown.has(KEY_D))) // vertical
         {
             this.y += deplacement;
             direction.y = 1;
         }
-        else if ( keysDown.has( KEY_S ) ) // diagonal
+        else if (keysDown.has(KEY_S)) // diagonal
         {
-            this.y += Math.sqrt( Math.pow( deplacement, 2 ) / 2 );
+            this.y += Math.sqrt(Math.pow(deplacement, 2) / 2);
         }
 
-        if ( keysDown.has( KEY_A ) &&
-            !( keysDown.has( KEY_W ) || keysDown.has( KEY_S ) ) ) // horizontal
+        if (keysDown.has(KEY_A) &&
+            !(keysDown.has(KEY_W) || keysDown.has(KEY_S))) // horizontal
         {
             this.x -= deplacement;
             direction.x = -1;
         }
-        else if ( keysDown.has( KEY_A ) ) // diagonal
+        else if (keysDown.has(KEY_A)) // diagonal
         {
-            this.x -= Math.sqrt( Math.pow( deplacement, 2 ) / 2 );
+            this.x -= Math.sqrt(Math.pow(deplacement, 2) / 2);
             direction.x = -1;
         }
-        else if ( keysDown.has( KEY_D ) &&
-            !( keysDown.has( KEY_W ) || keysDown.has( KEY_S ) ) ) // horizontal
+        else if (keysDown.has(KEY_D) &&
+            !(keysDown.has(KEY_W) || keysDown.has(KEY_S))) // horizontal
         {
             this.x += deplacement;
             direction.x = 1;
         }
-        else if ( keysDown.has( KEY_D ) ) // diagonal
+        else if (keysDown.has(KEY_D)) // diagonal
         {
-            this.x += Math.sqrt( Math.pow( deplacement, 2 ) / 2 );
+            this.x += Math.sqrt(Math.pow(deplacement, 2) / 2);
             direction.x = 1;
         }
 
         this._direction = direction;
 
-        this.updateShootingDirection( now );
+        return this.updateShootingDirection(now);
     }
 
 
-    updateShootingDirection( now )
+    updateShootingDirection(now)
     {
         const keysDown = this._keysDown;
         const direction = {};
 
-        if ( keysDown.has( KEY_UP ) )
+        if (keysDown.has(KEY_UP))
         {
             direction.y = -1;
         }
-        else if ( keysDown.has( KEY_DOWN ) )
+        else if (keysDown.has(KEY_DOWN))
         {
             direction.y = 1;
         }
@@ -240,11 +240,11 @@ export default class Isaac extends Character
             direction.y = 0;
         }
 
-        if ( keysDown.has( KEY_LEFT ) )
+        if (keysDown.has(KEY_LEFT))
         {
             direction.x = -1;
         }
-        else if ( keysDown.has( KEY_RIGHT ) )
+        else if (keysDown.has(KEY_RIGHT))
         {
             direction.x = 1;
         }
@@ -253,24 +253,24 @@ export default class Isaac extends Character
             direction.x = 0;
         }
 
-        if ( 0 !== direction.x || 0 !== direction.y )
+        if (0 !== direction.x || 0 !== direction.y)
         {
             this._direction = direction;
         }
 
 
-        if ( ( keysDown.has( KEY_UP ) ||
-            keysDown.has( KEY_DOWN ) ||
-            keysDown.has( KEY_LEFT ) ||
-            keysDown.has( KEY_RIGHT ) ) && ( !this._lastShoot ||
-            ( now - this._lastShoot >= this._attackSpeed ) ) )
+        if ((keysDown.has(KEY_UP) ||
+            keysDown.has(KEY_DOWN) ||
+            keysDown.has(KEY_LEFT) ||
+            keysDown.has(KEY_RIGHT)) && (!this._lastShoot ||
+            (now - this._lastShoot >= this._attackSpeed)))
         {
             this._lastShoot = now;
             this.shoot();
         }
 
-        if ( keysDown.has( KEY_SPACE ) &&
-            ( !this._lastBomb || 500 <= now - this._lastBomb ) )
+        if (keysDown.has(KEY_SPACE) &&
+            (!this._lastBomb || 500 <= now - this._lastBomb))
         {
             this._lastBomb = now;
             this.dropBomb();
@@ -285,21 +285,21 @@ export default class Isaac extends Character
 
     dropBomb()
     {
-        const playerItems = Store.get( 'playerItems' );
-        const existingItem = playerItems.get( 'bomb' );
+        const playerItems = Store.get('playerItems');
+        const existingItem = playerItems.get('bomb');
 
-        if ( existingItem && existingItem.quantity )
+        if (existingItem && existingItem.quantity)
         {
             const x = this.x;
             const y = this.y;
-            const [Bomb, ...bombs] = existingItem.items;
+            const [ Bomb, ...bombs ] = existingItem.items;
             existingItem.items = bombs;
             existingItem.quantity -= 1;
 
-            const bomb = new Bomb( { x, y, } );
+            const bomb = new Bomb({ x, y, });
             bomb.drop();
 
-            playerItems.set( 'bomb', existingItem );
+            playerItems.set('bomb', existingItem);
         }
     }
 
@@ -308,7 +308,7 @@ export default class Isaac extends Character
         let x;
         let y;
 
-        switch ( this._direction.x )
+        switch (this._direction.x)
         {
             case -1:
                 x = this._x;
@@ -317,7 +317,7 @@ export default class Isaac extends Character
             case 0:
                 x = this._x + 8;
 
-                switch ( this._direction.y )
+                switch (this._direction.y)
                 {
                     case -1:
                         y = this._y - 2;
@@ -325,6 +325,8 @@ export default class Isaac extends Character
                     case 1:
                         y = this._y + 6;
                         break;
+
+                    default:
                 }
 
                 break;
@@ -332,16 +334,18 @@ export default class Isaac extends Character
                 x = this._x + 15;
                 y = this._y + 2;
                 break;
+
+            default:
         }
 
-        this._tears.push( new Tear(
+        this._tears.push(new Tear(
         {
             x,
             y,
             direction: this._direction,
             creator: this,
             damages: this.damages,
-        } ) );
+        }));
     }
 
     renderSprite()
@@ -353,7 +357,7 @@ export default class Isaac extends Character
         let x;
         let y;
 
-        if ( isShooting || ( !isShooting && now - this._lastShoot <= this._attackSpeed / 2 ) )
+        if (isShooting || (!isShooting && now - this._lastShoot <= this._attackSpeed / 2))
         {
             head = isaac.head.shootingDirections;
         }
@@ -362,7 +366,7 @@ export default class Isaac extends Character
             head = isaac.head.directions;
         }
 
-        switch ( direction.x )
+        switch (direction.x)
         {
             case -1:
                 [ x, y ] = head.left;
@@ -370,11 +374,13 @@ export default class Isaac extends Character
             case 1:
                 [ x, y ] = head.right;
                 break;
+
+            default:
         }
 
-        if ( isShooting || ( !isShooting && !x ) )
+        if (isShooting || (!isShooting && !x))
         {
-            switch ( direction.y )
+            switch (direction.y)
             {
                 case -1:
                     [ x, y ] = head.up;
@@ -382,18 +388,21 @@ export default class Isaac extends Character
                 case 1:
                     [ x, y ] = head.down;
                     break;
+
+                default:
             }
         }
 
         // leags
-        ctx.drawImage( this._image, 0, 25, 18, 14, this._x + 5, this._y + 20, 18, 14 );
+        ctx.drawImage(this._image, 0, 25, 18, 14, this._x + 5, this._y + 20, 18, 14);
+
         // head
-        ctx.drawImage( this._image, x, y,
+        ctx.drawImage(this._image, x, y,
             isaac.head.width,
             isaac.head.height,
             this._x, this._y,
             isaac.head.width,
-            isaac.head.height );
+            isaac.head.height);
     }
 
     render()
@@ -402,7 +411,7 @@ export default class Isaac extends Character
         const delta = now - this._then;
         this._then = now;
 
-        this.update( delta / 1000, now );
+        this.update(delta / 1000, now);
         super.render();
     }
 }

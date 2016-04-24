@@ -3,25 +3,25 @@ import { volumeSlider, volumeDisplay } from 'volume-elements';
 const text = 'undefined' === typeof volumeDisplay.innerText ? 'textContent' : 'innerText';
 export default class VolumeController
 {
-    constructor( volume=50, muted=false )
+    constructor(volume=50, muted=false)
     {
         this.volume = volume;
         this.muted = muted;
 
-        this.updateDisplay( volumeDisplay );
-        this.observe( volumeSlider );
+        this.updateDisplay(volumeDisplay);
+        this.observe(volumeSlider);
     }
 
-    observe( input )
+    observe(input)
     {
-        input.addEventListener( 'change', ( { target } ) =>
+        input.addEventListener('change', ({ target }) =>
         {
             this.volume = target.value;
-            this.updateDisplay( volumeDisplay );
-        } );
+            this.updateDisplay(volumeDisplay);
+        });
     }
 
-    updateDisplay( span )
+    updateDisplay(span)
     {
         span[text] = `${this._volume} %`;
     }
@@ -31,9 +31,9 @@ export default class VolumeController
         return this._volume;
     }
 
-    set volume( value )
+    set volume(value)
     {
-        if ( 0 <= value && 100 >= value )
+        if (0 <= value && 100 >= value)
         {
             this._volume = value;
         }
@@ -44,7 +44,7 @@ export default class VolumeController
         return this._muted;
     }
 
-    set muted( value )
+    set muted(value)
     {
         this._muted = !!value;
     }

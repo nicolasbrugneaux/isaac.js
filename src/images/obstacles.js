@@ -7,13 +7,13 @@ export const rocks =
     {
         width: 170,
         height: 172,
-        position: [0, 0, ],
+        position: [ 0, 0, ],
     },
     special:
     {
         width: 170,
         height: 172,
-        position: [170, 0, ],
+        position: [ 170, 0, ],
     },
 };
 
@@ -31,8 +31,8 @@ export const fireBase =
     sprite: 'build/img/deadfire_sprite.png',
     width: 32,
     height: 32,
-    position: [0, 34, ],
-    deadPosition: [32, 34, ],
+    position: [ 0, 34, ],
+    deadPosition: [ 32, 34, ],
 };
 
 export default

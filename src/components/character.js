@@ -2,9 +2,9 @@ import DynamicActor from 'components/dynamic-actor';
 
 export default class Character extends DynamicActor
 {
-    constructor( { width, height, image, speed, name, hp, x, y } )
+    constructor({ width, height, image, speed, name, hp, x, y })
     {
-        super( { width, height, image, x, y, } );
+        super({ width, height, image, x, y, });
 
         this._speed = speed;
         this._hp = hp;
@@ -17,9 +17,9 @@ export default class Character extends DynamicActor
         return this._name;
     }
 
-    set name( value )
+    set name(value)
     {
-        throw new Error( 'Can\'t change name, name setter:' + value );
+        throw new Error('Can\'t change name, name setter:' + value);
     }
 
     get hp()
@@ -27,22 +27,22 @@ export default class Character extends DynamicActor
         return this._hp;
     }
 
-    set hp( value )
+    set hp(value)
     {
-        if ( 0 < value )
+        if (0 < value)
         {
-            this._hp = value <= ( this.maxHp || 16 ) ? value : this.maxHp || 16;
+            this._hp = value <= (this.maxHp || 16) ? value : this.maxHp || 16;
         }
-        else if ( 0 >= value )
+        else if (0 >= value)
         {
             this._hp = 0;
 
-            if ( this.die )
+            if (this.die)
             {
                 this.die();
             }
 
-            if ( this.respawn )
+            if (this.respawn)
             {
                 this._hp = this._originalHp;
                 this.respawn();

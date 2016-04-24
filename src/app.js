@@ -6,9 +6,9 @@ const main = () =>
     background.render();
     foreground.render();
 
-    displayCtx.drawImage( canvas, 0, 0 ); // draw something visible only once per frame.
+    displayCtx.drawImage(canvas, 0, 0); // draw something visible only once per frame.
 
-    requestAnimationFrame( main );
+    requestAnimationFrame(main);
 };
 
 main();

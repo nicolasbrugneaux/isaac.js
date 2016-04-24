@@ -1,9 +1,9 @@
 import Collection from 'components/collection';
 
-export const getColliders = ( target, other ) =>
+export const getColliders = (target, other) =>
 {
     // ignore collision with self
-    if ( target === other )
+    if (target === other)
     {
         return false;
     }
@@ -13,16 +13,16 @@ export const getColliders = ( target, other ) =>
     const y = target.y;
     const height = target.collidingHeight || target.height;
 
-    if ( Array.isArray( other ) || other instanceof Collection )
+    if (Array.isArray(other) || other instanceof Collection)
     {
         const colliders = [];
-        for ( let i = 0, len = other.length; i < len; i++ )
+        for (let i = 0, len = other.length; i < len; i++)
         {
-            const _colliders = getColliders( target, other[i] );
+            const _colliders = getColliders(target, other[i]);
 
-            if ( _colliders )
+            if (_colliders)
             {
-                colliders.push.apply( colliders, _colliders );
+                colliders.push.apply(colliders, _colliders); // eslint-disable-line prefer-spread
             }
         }
 
@@ -39,18 +39,18 @@ export const getColliders = ( target, other ) =>
     const bottom = y + height <= _y + _height;
     const left = x + width >= _x;
 
-    if ( left && right && bottom && top )
+    if (left && right && bottom && top)
     {
-        return [other, ];
+        return [ other, ];
     }
 
     return false;
 };
 
-export const isColliding = ( target, other ) =>
+export const isColliding = (target, other) =>
 {
     // ignore collision with self
-    if ( target === other )
+    if (target === other)
     {
         return false;
     }
@@ -60,12 +60,12 @@ export const isColliding = ( target, other ) =>
     const y = target.y;
     const height = target.collidingHeight || target.height;
 
-    if ( Array.isArray( other ) || other instanceof Collection )
+    if (Array.isArray(other) || other instanceof Collection)
     {
-        for ( let i = 0, len = other.length; i < len; i++ )
+        for (let i = 0, len = other.length; i < len; i++)
         {
-            const collider = isColliding( target, other[i] );
-            if ( collider )
+            const collider = isColliding(target, other[i]);
+            if (collider)
             {
                 return collider;
             }
@@ -84,7 +84,7 @@ export const isColliding = ( target, other ) =>
     const bottom = y + height <= _y + _height;
     const left = x + width >= _x;
 
-    if ( left && right && bottom && top )
+    if (left && right && bottom && top)
     {
         return other;
     }

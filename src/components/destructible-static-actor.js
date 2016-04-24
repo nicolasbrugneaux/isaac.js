@@ -2,9 +2,9 @@ import StaticActor from 'components/static-actor';
 
 export default class DestructibleStaticActor extends StaticActor
 {
-    constructor( { x, y, width, height, image, hp } )
+    constructor({ x, y, width, height, image, hp })
     {
-        super( { x, y, width, height, image, } );
+        super({ x, y, width, height, image, });
 
         this._hp = hp;
         this.active = true;
@@ -17,9 +17,9 @@ export default class DestructibleStaticActor extends StaticActor
         return this._hp;
     }
 
-    set hp( value )
+    set hp(value)
     {
-        if ( 0 < value )
+        if (0 < value)
         {
             this._hp = value;
         }

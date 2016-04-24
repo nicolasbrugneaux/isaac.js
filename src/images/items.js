@@ -5,11 +5,11 @@ export const bombs =
     height: 32,
     default:
     {
-        position: [0, 0, ],
+        position: [ 0, 0, ],
     },
     double:
     {
-        position: [32, 0, ],
+        position: [ 32, 0, ],
     },
     explosion:
     {

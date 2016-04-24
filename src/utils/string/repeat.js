@@ -1,7 +1,7 @@
-export default ( str, times ) =>
+export default (str, times) =>
 {
     let _str = '';
-    while ( times-- )
+    while (times--)
     {
         _str += str;
     }
