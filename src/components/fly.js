@@ -1,4 +1,5 @@
 import Character from 'components/character';
+import Collection from 'components/collection';
 import { ctx } from 'canvas';
 import { flies } from 'images/monsters';
 import Store from 'store';
@@ -86,11 +87,11 @@ export default class Fly extends Character
         this.width = flies[this._name].width;
         this.height = flies[this._name].height;
         this._interval = 75;
-
         this.active = false;
+    }
 
-        // Store.set('monsters', Store.get('monsters')
-        //     .filter(monster => this !== monster));
+    get inactiveLayer() {
+        return 'backgroundObstacles';
     }
 
     renderSprite()
@@ -101,9 +102,8 @@ export default class Fly extends Character
         {
             this.updatePosition();
         }
-        else if (this._state === this._states - 1)
+        else if (this._state === this._states - 1 && !this.active)
         {
-            this.active = false;
             return;
         }
 
